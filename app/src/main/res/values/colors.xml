@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#8c3185</color>
+    <color name="colorPrimaryOpacity">#BA83B6</color>
+    <color name="colorPrimaryDark">#8c3185</color>
+    <color name="colorAccent">#7e1a76</color>
+    <color name="colorGray">#c2c2c2</color>
+    <color name="colorGrayDark">#414141</color>
+    <color name="colorGrayLight">#bbbbbb</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorRed">#ff0000</color>
+    <color name="colorWhiteOpacity">#50ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorBlackOpcity">#26000000</color>
+    <color name="colorBlackOpacity">#a4000000</color>
+    <color name="colorBlue">#88a0b6</color>
+    <color name="colorQuli">#5f7484</color>
+    <color name="colorText">#64747f</color>
+    <color name="colorGreen">#8fc63f</color>
+    <color name="colorGrayView">#d8d8d8</color>
+    <color name="colorGrayTxt">#9d9d9d</color>
+    <color name="colorReject">#fc564e</color>
+    <color name="colorAccept">#92C83E</color>
+
+    <array name="array_dot_active">
+        <item>@color/colorWhite</item>
+        <item>@color/colorWhite</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/colorWhiteOpacity</item>
+        <item>@color/colorWhiteOpacity</item>
+    </array>
+</resources>

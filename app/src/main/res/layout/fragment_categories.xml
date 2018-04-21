@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimaryDark">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/logo_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo_layout"
+            android:layout_marginTop="30dp">
+
+            <RelativeLayout
+                android:id="@+id/firstLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/clothLayout"
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
+                    android:background="@drawable/circle_border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:text="@string/cloth"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18.3sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/shopsLayout"
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/clothLayout"
+                    android:background="@drawable/circle_border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center"
+                        android:text="@string/shops"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18.3sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/hosusLayout"
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/shopsLayout"
+                    android:background="@drawable/circle_border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center"
+                        android:text="@string/house"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18.3sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/secondLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/firstLayout"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/sportLayout"
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
+                    android:background="@drawable/circle_border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center"
+                        android:text="@string/sport"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18.3sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/furLayout"
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/sportLayout"
+                    android:background="@drawable/circle_border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center"
+                        android:text="@string/furth"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18.3sp" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/secondLayout"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/resturanceLayout"
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
+                    android:background="@drawable/circle_border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:text="@string/resturance"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18.3sp" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/logo_layout"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_white" />
+
+        <TextView
+            android:id="@+id/select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo_layout"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/droid_kufi_bold"
+            android:gravity="center"
+            android:text="@string/select_user_type"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:id="@+id/form_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/select"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:id="@+id/userLayout"
+                android:layout_width="94dp"
+                android:layout_height="94dp"
+                android:background="@drawable/circle_border">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:text="@string/user"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18.3sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/markerLayout"
+                android:layout_width="94dp"
+                android:layout_height="94dp"
+                android:layout_marginStart="80dp"
+                android:layout_toEndOf="@+id/userLayout"
+                android:background="@drawable/circle_border">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:text="@string/marker"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18.3sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

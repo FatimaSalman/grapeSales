@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:background="@color/colorGreen" />
+
+    <TextView
+        android:id="@+id/menuTitleTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/view"
+        android:fontFamily="@font/droid_kufi_bold"
+        android:lineSpacingExtra="8sp"
+        android:padding="20dp"
+        android:text="@string/login"
+        android:textColor="@color/colorWhite"
+        android:textSize="15.8sp" />
+</RelativeLayout>

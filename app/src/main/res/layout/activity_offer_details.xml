@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/backLayout"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ic_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_arrow_back_white_24dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/registerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/droid_kufi_bold"
+                android:text="@string/offer_details"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolBar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/topLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark">
+
+                <RelativeLayout
+                    android:id="@+id/imageLayout"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp">
+
+                    <com.github.siyamed.shapeimageview.RoundedImageView
+                        android:id="@+id/shopImage"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/photo"
+                        app:siRadius="26.7dp" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/shopNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageLayout"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/droid_kufi_bold"
+                    android:gravity="center"
+                    android:text="@string/offer_name"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18.3sp" />
+
+                <TextView
+                    android:id="@+id/shopAddressTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/shopNameTxt"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/offer_bio"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13.2sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/priceLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/topLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/nextPriceLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/offerNextPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="center"
+                        android:text="@string/_165"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="46.8sp" />
+
+                    <TextView
+                        android:id="@+id/offerNextTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="1dp"
+                        android:layout_toEndOf="@+id/offerNextPrice"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center_horizontal"
+                        android:text="@string/seqel"
+                        android:textColor="@color/colorGrayDark"
+                        android:textSize="20.3sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/previousPriceLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="11dp"
+                    android:layout_toEndOf="@+id/nextPriceLayout">
+
+                    <TextView
+                        android:id="@+id/offerPreviousPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="center|bottom"
+                        android:text="@string/_165_line"
+                        android:textColor="@color/colorGrayLight"
+                        android:textSize="21.2sp" />
+
+                    <TextView
+                        android:id="@+id/offerTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="1dp"
+                        android:layout_toEndOf="@+id/offerPreviousPrice"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center|bottom"
+                        android:text="@string/seqel_line"
+                        android:textColor="@color/colorGrayLight"
+                        android:textSize="16.3sp" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/orderBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/priceLayout"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_grape_border"
+                android:fontFamily="@font/droid_kufi_bold"
+                android:text="@string/order_from_us"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <Button
+                android:id="@+id/backBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/orderBtn"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_grape_border"
+                android:fontFamily="@font/droid_kufi_bold"
+                android:text="@string/back"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimaryDark" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

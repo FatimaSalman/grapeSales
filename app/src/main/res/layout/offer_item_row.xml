@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_grape_border"
+        android:padding="10dp"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:id="@+id/imageLayout"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true">
+
+            <com.github.siyamed.shapeimageview.RoundedImageView
+                android:id="@+id/offerImage"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:src="@drawable/photo"
+                app:siRadius="26.7dp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="0.7dp"
+            android:layout_below="@+id/imageLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorGrayView" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/offerNameTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:ellipsize="end"
+                android:fontFamily="@font/droid_kufi_bold"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/offer_name"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="11.5sp" />
+
+            <TextView
+                android:id="@+id/addressTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/offerNameTxt"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/droid_kufi_regular"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/offer_bio"
+                android:textColor="@color/colorGrayDark"
+                android:textSize="9.2sp" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="wrap_content"
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/addressTxt"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorGrayView" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/nextPriceLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/offerNextPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="center"
+                        android:text="@string/_165"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="22.3sp" />
+
+                    <TextView
+                        android:id="@+id/offerNextTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="1dp"
+                        android:layout_toEndOf="@+id/offerNextPrice"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center_horizontal"
+                        android:text="@string/seqel"
+                        android:textColor="@color/colorGrayDark"
+                        android:textSize="9.7sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/previousPriceLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="11dp"
+                    android:layout_toEndOf="@+id/nextPriceLayout">
+
+                    <TextView
+                        android:id="@+id/offerPreviousPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="center|bottom"
+                        android:text="@string/_165_line"
+                        android:textColor="@color/colorGrayLight"
+                        android:textSize="10.2sp" />
+
+                    <TextView
+                        android:id="@+id/offerTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="1dp"
+                        android:layout_toEndOf="@+id/offerPreviousPrice"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center|bottom"
+                        android:text="@string/seqel_line"
+                        android:textColor="@color/colorGrayLight"
+                        android:textSize="7.8sp" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
