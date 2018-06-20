@@ -1481,6 +1481,79 @@ public class ConnectionManager implements ConnectionManagerInterface {
     }
 
     @Override
+    public void getOfferStoreSearch(final String id, final String offer_name, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            final OkHttpClient client = new OkHttpClient();
+                            String url = FontManager.URL + "searchStoreOffers?id=" + id +
+                                    "&offer_name=" + offer_name;
+                            Log.e("urlSearch", url);
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(url).get()
+                                    .build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (final JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(e.getMessage());
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (final Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(e.getMessage());
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
     public void addFcmToken(final String fcm_token, final InstallCallback callback) {
         InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
             @Override

@@ -224,7 +224,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
         progressbar.setVisibility(View.VISIBLE);
         noTxt.setVisibility(View.GONE);
         String offerName = offerEditText.getText().toString().trim();
-        connectionManager.getOfferSearch(offerName, new InstallCallback() {
+        connectionManager.getOfferStoreSearch(shop.getId(),offerName, new InstallCallback() {
             @Override
             public void onStatusDone(String status) {
 
