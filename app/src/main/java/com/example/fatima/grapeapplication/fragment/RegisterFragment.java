@@ -29,6 +29,7 @@ import com.example.fatima.grapeapplication.manager.AppPreferences;
 import com.example.fatima.grapeapplication.manager.ConnectionManager;
 import com.example.fatima.grapeapplication.manager.FontManager;
 import com.example.fatima.grapeapplication.model.User;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Locale;
 
@@ -91,6 +92,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             user.setPhone(mobile);
             user.setPassword(password);
             user.setType("0");
+            user.setFcm_token(FirebaseInstanceId.getInstance().getToken());
 
             connectionManager.register(user, new RegisterCallback() {
                 @Override

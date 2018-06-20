@@ -4,11 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,34 +22,52 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.fatima.grapeapplication.R;
+import com.example.fatima.grapeapplication.adapter.ImageAdapter;
 import com.example.fatima.grapeapplication.callback.InstallCallback;
 import com.example.fatima.grapeapplication.callback.OfferCallback;
+import com.example.fatima.grapeapplication.callback.OnItemClickListener;
 import com.example.fatima.grapeapplication.callback.RegisterCallback;
 import com.example.fatima.grapeapplication.manager.AppErrorsManager;
 import com.example.fatima.grapeapplication.manager.ConnectionManager;
 import com.example.fatima.grapeapplication.manager.FilePath;
 import com.example.fatima.grapeapplication.manager.FontManager;
+import com.example.fatima.grapeapplication.model.Images;
 import com.example.fatima.grapeapplication.model.Offer;
 import com.example.fatima.grapeapplication.model.User;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class updateOfferActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CircularImageView shopImage;
-    private ImageView ic_camera;
+    //    private CircularImageView shopImage;
+//    private ImageView ic_camera;
     private ConnectionManager connectionManager;
     private static final int GALLERY_REQUEST_CODE_SCHEMA = 50;
     private File fileSchema;
     private String offer_id;
     private EditText offerNameEditText, previousPriceEditText, nextPriceEditText, bioEditText;
     private ProgressDialog progressDialog;
+    private List<Images> imageList = new ArrayList<>();
+    private ImageAdapter imageAdapter;
+    private ImageView addImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale locale = new Locale("ar");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_add_offer);
         connectionManager = new ConnectionManager(this);
         offer_id = getIntent().getStringExtra("offer_id");
@@ -60,17 +82,29 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
         registerBtn.setOnClickListener(this);
 
         offerNameEditText = findViewById(R.id.offerNameEditText);
+        addImage = findViewById(R.id.addImage);
         previousPriceEditText = findViewById(R.id.previousPriceEditText);
         nextPriceEditText = findViewById(R.id.nextPriceEditText);
         bioEditText = findViewById(R.id.bioEditText);
-        ic_camera = findViewById(R.id.ic_camera);
-        shopImage = findViewById(R.id.shopImage);
-        shopImage.setOnClickListener(this);
+//        ic_camera = findViewById(R.id.ic_camera);
+//        shopImage = findViewById(R.id.shopImage);
+        addImage.setOnClickListener(this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.loading));
         progressDialog.show();
-
+        RecyclerView recycleViewImage = findViewById(R.id.recycleView);
+        imageAdapter = new ImageAdapter(this, imageList, new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                imageList.remove(position);
+                imageAdapter.notifyDataSetChanged();
+            }
+        });
+        recycleViewImage.setLayoutManager(new GridLayoutManager(this, 3));
+        recycleViewImage.setItemAnimator(new DefaultItemAnimator());
+        recycleViewImage.setNestedScrollingEnabled(false);
+        recycleViewImage.setAdapter(imageAdapter);
         getOfferDetails();
     }
 
@@ -81,7 +115,7 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
             finish();
         } else if (id == R.id.registerBtn) {
             updateOffer();
-        } else if (id == R.id.shopImage) {
+        } else if (id == R.id.addImage) {
             openGalleryFile();
         }
     }
@@ -112,6 +146,7 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
             offer.setPreviousPrice(before_price);
             offer.setNextPrice(after_price);
             offer.setOfferBio(offer_bio);
+            offer.setImagesList(imageList);
             offer.setImageFile(fileSchema);
             offer.setId(offer_id);
             connectionManager.updateOffer(offer, new InstallCallback() {
@@ -159,8 +194,11 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
         Log.e("pdfPathHolder", pdfPathHolder + "");
         assert pdfPathHolder != null;
         fileSchema = new File(pdfPathHolder);
-        Picasso.with(this).load(uri).into(shopImage);
-        ic_camera.setVisibility(View.GONE);
+//        Picasso.with(this).load(uri).into(shopImage);
+//        ic_camera.setVisibility(View.GONE);
+        Images image = new Images(uri, fileSchema);
+        imageList.add(image);
+        imageAdapter.notifyDataSetChanged();
 
     }
 
@@ -187,10 +225,21 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
                 previousPriceEditText.setText(offer1.getPreviousPrice());
                 nextPriceEditText.setText(offer1.getNextPrice());
                 bioEditText.setText(offer1.getOfferBio());
-
-                Picasso.with(updateOfferActivity.this)
-                        .load(FontManager.IMAGE_URL + offer1.getOfferImage()).into(shopImage);
-                ic_camera.setVisibility(View.GONE);
+                try {
+                    JSONArray jsonArray = new JSONArray(offer1.getOfferImage());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        String image = jsonArray.getString(i);
+                        Log.e("images", image);
+                        Images images = new Images(image);
+                        imageList.add(images);
+                        imageAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                Picasso.with(updateOfferActivity.this)
+//                        .load(FontManager.IMAGE_URL + offer1.getOfferImage()).into(shopImage);
+//                ic_camera.setVisibility(View.GONE);
             }
 
             @Override

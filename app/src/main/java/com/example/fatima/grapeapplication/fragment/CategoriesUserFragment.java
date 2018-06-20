@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.example.fatima.grapeapplication.R;
@@ -32,7 +33,8 @@ public class CategoriesUserFragment extends Fragment implements View.OnClickList
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void init(View view) {
-
+        TextView title = getActivity().findViewById(R.id.registerTitle);
+        title.setText(getString(R.string.main));
 //        Toolbar toolbar = getActivity().findViewById(R.id.toolBar);
 
         RelativeLayout clothLayout = view.findViewById(R.id.clothLayout);

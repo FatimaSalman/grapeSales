@@ -43,6 +43,7 @@
     <string name="house">أدوات منزلية</string>
     <string name="sport">أدوات رياضية</string>
     <string name="furth">أثاث\nمنزلي</string>
+    <string name="furth_">أثاث منزلي</string>
     <string name="resturance">مطاعم</string>
     <string name="offer_details">تفاصيل العرض</string>
     <string name="order_from_us">أطلب عبرنا</string>
@@ -69,4 +70,29 @@
     <string name="emailId">grapesalesapp@gmail.com</string>
     <string name="pas">farah2009</string>
     <string name="current_offer">عروض حصرية</string>
+    <string name="you_should_least_3_images">يجب اختيار على الاكثر 3 صور للعرض</string>
+    <string name="you_should_least_1_images">يبجب ارفاق صورة واحدة على الاقل عن العرض</string>
+    <string name="add_image_for_offer">إضافة صور للعرض</string>
+    <string name="search_page">صفحة البحث</string>
+    <string name="category">التصنيف</string>
+    <string name="city">المدينة</string>
+    <string name="exhibtion">المعرض</string>
+    <string name="no_results">لا يوجد نتائج</string>
+    <string name="you_should_attach_image_shop">يجب إرفاق صورة المعرض</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_orders">لا يوجد طلبات الآن</string>
+    <string name="date">تاريخ الطلب</string>
+    <string name="order">الطلبات</string>
+    <string name="order_details">تفاصيل الطلب</string>
+    <string name="user_name">اسم الزبون</string>
+    <string name="mobile_number_user">رقم الهاتف أو المحمول لزبون</string>
+    <string name="deleviry_done">تم التوصيل</string>
+    <string name="dash">-</string>
+    <string name="for_contact_us">للتواصل معنا:</string>
+    <string name="grapesalesapp_gmail_com">grapesalesapp@gmail.com</string>
+    <string name="_970_599_411_474">+970 599 411 474</string>
+    <string name="graps_note">تطبيق قطوف يجمع لك جميع التخفضيات في قطاع غزة … ولنعمل على خدمة أفضل يمكنك طلب العرض الذي تريد عبرنا .. رضاكم هدفنا</string>
+    <string name="contact_us">اتصل بنا</string>
 </resources>

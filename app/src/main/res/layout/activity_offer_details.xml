@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
@@ -68,34 +69,59 @@
                 android:background="@color/colorPrimaryDark">
 
                 <RelativeLayout
-                    android:id="@+id/imageLayout"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp">
+                    android:id="@+id/sliderLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <com.github.siyamed.shapeimageview.RoundedImageView
-                        android:id="@+id/shopImage"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:src="@drawable/photo"
-                        app:siRadius="26.7dp" />
+                    <com.daimajia.slider.library.SliderLayout
+                        android:id="@+id/slider"
+                        android:layout_width="fill_parent"
+                        android:layout_height="200dp"
+                        custom:auto_cycle="true"
+                        custom:indicator_visibility="visible" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        style="?android:progressBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:visibility="visible" />
+                    <com.daimajia.slider.library.Indicators.PagerIndicator
+                        android:id="@+id/custom_indicator"
+                        style="@style/AndroidImageSlider_Indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@color/colorBlackOpacity"
+                        app:selected_color="@color/colorPrimaryDark"
+                        app:unselected_color="@color/colorWhiteOpacity" />
 
                 </RelativeLayout>
+
+                <!--<RelativeLayout-->
+                <!--android:id="@+id/imageLayout"-->
+                <!--android:layout_width="120dp"-->
+                <!--android:layout_height="120dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="20dp">-->
+
+                <!--<com.github.siyamed.shapeimageview.RoundedImageView-->
+                <!--android:id="@+id/shopImage"-->
+                <!--android:layout_width="120dp"-->
+                <!--android:layout_height="120dp"-->
+                <!--android:src="@drawable/photo"-->
+                <!--app:siRadius="26.7dp" />-->
+
+                <!--<ProgressBar-->
+                <!--android:id="@+id/progressBar"-->
+                <!--style="?android:progressBarStyleSmall"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:visibility="visible" />-->
+
+                <!--</RelativeLayout>-->
 
                 <TextView
                     android:id="@+id/shopNameTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/imageLayout"
+                    android:layout_below="@+id/sliderLayout"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/droid_kufi_bold"
                     android:gravity="center"

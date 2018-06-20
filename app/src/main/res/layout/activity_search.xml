@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SearchActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/backLayout"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ic_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_arrow_back_white_24dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/registerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/droid_kufi_bold"
+                android:text="@string/search_page"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolBar">
+
+        <LinearLayout
+            android:id="@+id/searchForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_border"
+            android:padding="5dp"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/byCateogry"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.5"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_category"
+                android:fontFamily="@font/droid_kufi_regular"
+                android:gravity="center_vertical"
+                android:hint="@string/category"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:background="@color/colorGray" />
+
+            <TextView
+                android:id="@+id/byCity"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.5"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_map"
+                android:fontFamily="@font/droid_kufi_regular"
+                android:gravity="center_vertical"
+                android:hint="@string/city"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/exhForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/searchForm"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_border"
+            android:padding="5dp"
+            tools:ignore="UselessParent">
+
+            <EditText
+                android:id="@+id/exhibtionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/searchBtoon"
+                android:background="@null"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_store"
+                android:fontFamily="@font/droid_kufi_regular"
+                android:gravity="center_vertical"
+                android:hint="@string/shop_name"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textSize="12sp" />
+
+            <ImageButton
+                android:id="@+id/searchBtoon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/circle_green_border"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_search" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/noTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/droid_kufi_bold"
+        android:gravity="center"
+        android:text="@string/no_results"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18.3sp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/waitProgress"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/logo_app"
+        android:visibility="gone" />
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/noTxt">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+    [
+</RelativeLayout>

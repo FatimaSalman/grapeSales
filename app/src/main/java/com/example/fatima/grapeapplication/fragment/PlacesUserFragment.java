@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.fatima.grapeapplication.R;
-import com.example.fatima.grapeapplication.activity.OfferListActivity;
 import com.example.fatima.grapeapplication.activity.ShopListForUserActivity;
 
 public class PlacesUserFragment extends Fragment implements View.OnClickListener {

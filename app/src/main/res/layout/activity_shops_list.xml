@@ -52,9 +52,45 @@
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
+        android:id="@+id/exhForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolBar"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_white_border"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/exhibtionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/searchBtoon"
+            android:background="@null"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_store"
+            android:fontFamily="@font/droid_kufi_regular"
+            android:gravity="center_vertical"
+            android:hint="@string/shop_name"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/searchBtoon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/circle_green_border"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_search" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolBar">
+        android:layout_below="@+id/exhForm">
 
         <TextView
             android:id="@+id/noTxt"
@@ -77,9 +113,17 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/logo_white" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </RelativeLayout>
 </RelativeLayout>

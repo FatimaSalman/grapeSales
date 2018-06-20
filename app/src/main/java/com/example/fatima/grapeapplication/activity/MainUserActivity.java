@@ -1,6 +1,7 @@
 package com.example.fatima.grapeapplication.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,18 +15,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.fatima.grapeapplication.R;
 import com.example.fatima.grapeapplication.adapter.ItemAdapter;
+import com.example.fatima.grapeapplication.callback.InstallCallback;
 import com.example.fatima.grapeapplication.callback.OnItemClickListener;
 import com.example.fatima.grapeapplication.fragment.CategoriesFragment;
 import com.example.fatima.grapeapplication.fragment.CategoriesUserFragment;
+import com.example.fatima.grapeapplication.fragment.ContactUsFragment;
 import com.example.fatima.grapeapplication.fragment.OffersFragment;
 import com.example.fatima.grapeapplication.fragment.ShopsFragment;
 import com.example.fatima.grapeapplication.fragment.WelcomeFragment;
+import com.example.fatima.grapeapplication.manager.ConnectionManager;
 import com.example.fatima.grapeapplication.model.MenuItem;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +42,14 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
     private NavigationView navigationView;
     private List<MenuItem> menuItemList = new ArrayList<>();
     private ItemAdapter itemAdapter;
+    private ConnectionManager connectionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        connectionManager = new ConnectionManager(this);
+        getFcmToken();
         init();
     }
 
@@ -60,6 +68,8 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
 
         RelativeLayout menuLayout = findViewById(R.id.menuLayout);
         menuLayout.setOnClickListener(this);
+        RelativeLayout searchLayout = findViewById(R.id.searchLayout);
+        searchLayout.setOnClickListener(this);
         replaceFragment(new CategoriesUserFragment());
         RecyclerView recyclerView = navigationView.findViewById(R.id.nav_drawer_recycler_view);
         itemAdapter = new ItemAdapter(this, menuItemList, new OnItemClickListener() {
@@ -70,8 +80,11 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
                 if (TextUtils.equals(menuItemList.get(position).getId(), "0")) {
                     replaceFragment(new CategoriesUserFragment());
                     toggleSlidingMenu();
-                }else if (TextUtils.equals(menuItemList.get(position).getId(), "1")) {
+                } else if (TextUtils.equals(menuItemList.get(position).getId(), "1")) {
                     replaceFragment(new OffersFragment());
+                    toggleSlidingMenu();
+                } else if (TextUtils.equals(menuItemList.get(position).getId(), "2")) {
+                    replaceFragment(new ContactUsFragment());
                     toggleSlidingMenu();
                 }
             }
@@ -88,6 +101,8 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
         int id = view.getId();
         if (id == R.id.menuLayout) {
             toggleSlidingMenu();
+        } else if (id == R.id.searchLayout) {
+            startActivity(new Intent(this, SearchActivity.class));
         }
     }
 
@@ -106,8 +121,6 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
         menuItemList.add(menuItem);
         menuItem = new MenuItem("2", "اتصل بنا");
         menuItemList.add(menuItem);
-        menuItem = new MenuItem("3", "من نحن");
-        menuItemList.add(menuItem);
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -116,5 +129,26 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
         fragmentTransaction.replace(R.id.container, fragment, fragment.toString());
         fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+    }
+
+    public void getFcmToken() {
+        connectionManager.addFcmToken(FirebaseInstanceId.getInstance().getToken(), new InstallCallback() {
+            @Override
+            public void onStatusDone(String status) {
+                Log.e("data", status);
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("error", error);
+            }
+        });
     }
 }

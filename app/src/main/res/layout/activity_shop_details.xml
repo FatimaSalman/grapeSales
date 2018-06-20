@@ -51,107 +51,184 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/addLayout"
         android:layout_below="@+id/toolBar">
 
-        <RelativeLayout
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/topLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
-                    android:id="@+id/imageLayout"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp">
+                    android:id="@+id/topLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark">
 
-                    <com.github.siyamed.shapeimageview.RoundedImageView
-                        android:id="@+id/shopImage"
+                    <RelativeLayout
+                        android:id="@+id/imageLayout"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:src="@drawable/photo"
-                        app:siRadius="26.7dp" />
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp">
 
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        style="?android:progressBarStyleSmall"
-                        android:layout_width="wrap_content"
+                        <com.github.siyamed.shapeimageview.RoundedImageView
+                            android:id="@+id/shopImage"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:src="@drawable/photo"
+                            app:siRadius="26.7dp" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            style="?android:progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:visibility="visible" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/shopNameTxt"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:visibility="visible" />
+                        android:layout_below="@+id/imageLayout"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/droid_kufi_bold"
+                        android:gravity="center"
+                        android:text="@string/shop_name"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18.3sp" />
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/shopNameTxt"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/shopAddressTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/droid_kufi_regular"
+                            android:gravity="center_horizontal"
+                            android:text="@string/address_title"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="13.2sp" />
+
+                        <TextView
+                            android:id="@+id/dashTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/shopAddressTxt"
+                            android:fontFamily="@font/droid_kufi_regular"
+                            android:gravity="center_horizontal"
+                            android:text="@string/dash"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="13.2sp" />
+
+                        <TextView
+                            android:id="@+id/mobileTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/dashTxt"
+                            android:fontFamily="@font/droid_kufi_regular"
+                            android:gravity="center_horizontal"
+                            android:text="@string/address_title"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="13.2sp" />
+                    </RelativeLayout>
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/shopNameTxt"
+                <RelativeLayout
+                    android:id="@+id/exhForm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/imageLayout"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/droid_kufi_bold"
-                    android:gravity="center"
-                    android:text="@string/shop_name"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18.3sp" />
+                    android:layout_below="@+id/topLayout"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/bg_border"
+                    android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/shopAddressTxt"
+                    <EditText
+                        android:id="@+id/offerEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/searchBtoon"
+                        android:background="@null"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/ic_offer"
+                        android:fontFamily="@font/droid_kufi_regular"
+                        android:gravity="center_vertical"
+                        android:hint="@string/offer_name"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:textSize="12sp" />
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:hint="@string/category" />-->
+                    <ImageButton
+                        android:id="@+id/searchBtoon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/circle_green_border"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_search" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/shopNameTxt"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="6dp"
-                    android:fontFamily="@font/droid_kufi_regular"
-                    android:gravity="center_horizontal"
-                    android:text="@string/address_title"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13.2sp" />
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/exhForm"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/noTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/droid_kufi_bold"
+                        android:gravity="center"
+                        android:text="@string/no_offers"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18.3sp"
+                        android:visibility="gone" />
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+
+                    <ImageView
+                        android:id="@+id/waitProgress"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/logo_app" />
+                </RelativeLayout>
             </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/topLayout"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/noTxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/droid_kufi_bold"
-                    android:gravity="center"
-                    android:text="@string/no_offers"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18.3sp"
-                    android:visibility="gone" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <ImageView
-                    android:id="@+id/waitProgress"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerInParent="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/logo_app" />
-            </RelativeLayout>
-        </RelativeLayout>
-    </ScrollView>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/addLayout"

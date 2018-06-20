@@ -22,6 +22,7 @@ import com.example.fatima.grapeapplication.manager.AppErrorsManager;
 import com.example.fatima.grapeapplication.manager.AppPreferences;
 import com.example.fatima.grapeapplication.manager.ConnectionManager;
 import com.example.fatima.grapeapplication.model.User;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
@@ -74,6 +75,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             User user = new User();
             user.setFull_name(email);
             user.setPassword(password);
+            user.setFcm_token(FirebaseInstanceId.getInstance().getToken());
             connectionManager.login(user, new LoginCallback() {
                 @Override
                 public void onLoginDone(User user) {

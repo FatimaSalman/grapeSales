@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".fragment.ContactUsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/imageLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_white_border">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/logo_app" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/smallNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageLayout"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/droid_kufi_bold"
+            android:gravity="center"
+            android:text="@string/graps_note"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/forLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/smallNote"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/droid_kufi_bold"
+            android:text="@string/for_contact_us"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:id="@+id/emailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/forLayout"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/ic_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_email" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/ic_email"
+                android:text="@string/grapesalesapp_gmail_com"
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mobileLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailLayout"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/ic_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_call" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/ic_mobile"
+                android:text="@string/_970_599_411_474"
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

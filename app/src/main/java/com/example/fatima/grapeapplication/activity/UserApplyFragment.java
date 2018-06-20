@@ -1,7 +1,10 @@
 package com.example.fatima.grapeapplication.activity;
 
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,19 +22,35 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.fatima.grapeapplication.R;
+import com.example.fatima.grapeapplication.callback.InstallCallback;
 import com.example.fatima.grapeapplication.manager.AppErrorsManager;
+import com.example.fatima.grapeapplication.manager.ConnectionManager;
 import com.example.fatima.grapeapplication.manager.GMail;
 import com.example.fatima.grapeapplication.manager.SendMail;
 import com.example.fatima.grapeapplication.model.Order;
 
+import java.util.Locale;
+
 public class UserApplyFragment extends AppCompatActivity implements View.OnClickListener {
 
     private EditText fullNameEditText, mobileEditText, locationEditText, noteEditText;
+    private String offer_id, shop_id, user_id;
+    private ConnectionManager connectionManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale locale = new Locale("ar");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_user);
+        offer_id = getIntent().getStringExtra("offer_id");
+        shop_id = getIntent().getStringExtra("shop_id");
+        user_id = getIntent().getStringExtra("user_id");
+        connectionManager = new ConnectionManager(this);
         init();
     }
 
@@ -65,30 +84,35 @@ public class UserApplyFragment extends AppCompatActivity implements View.OnClick
             locationEditText.setError(getString(R.string.required_field));
             locationEditText.requestFocus();
         } else {
-            Order user = new Order();
-//            user.setUsername(username);
-//            user.setUsername(email);
-//            user.setUsername(codeTxt + mobile);
-//            user.setUsername(password);
-//
-//            Log.e("usss", user.getEmail());
-//            connectionManager.register(user, new RegisterCallback() {
-//                @Override
-//                public void onUserRegisterDone(User user) {
-//                    Gson json = new Gson();
-//                    String userJson = json.toJson(user);
-//                    AppPreferences.saveString(RegisterFragment.this, "userJson", userJson);
-//                    if (user.getRole_id().equals("5ac25884a0a25a3172c88632")) {
-//                        Intent intent = new Intent(RegisterFragment.this, MainActivity.class);
-//                        startActivity(intent);
-//                    }
-//                }
-//
-//                @Override
-//                public void onError(String error) {
-//                    AppErrorsManager.showErrorDialog(RegisterFragment.this, error);
-//                }
-//            });
+            Order order = new Order();
+            order.setUserName(username);
+            order.setShop_id(shop_id);
+            order.setOffer_id(offer_id);
+            order.setMobile(mobile);
+            order.setAddress(location);
+            order.setNote(note);
+            order.setUser_id(user_id);
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.loading));
+            progressDialog.show();
+            connectionManager.applyOrder(order, new InstallCallback() {
+                @Override
+                public void onStatusDone(String status) {
+                    progressDialog.hide();
+                    AppErrorsManager.showSuccessDialog(UserApplyFragment.this, status, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    progressDialog.hide();
+                    AppErrorsManager.showErrorDialog(UserApplyFragment.this, error);
+                }
+            });
         }
     }
 
@@ -102,23 +126,7 @@ public class UserApplyFragment extends AppCompatActivity implements View.OnClick
                     getString(R.string.are_you_sure), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            SendMail sendMail = new SendMail(UserApplyFragment.this,
-                                    "fatoom.21.19911@gmail.com", "helllo",
-                                    "helllo");
-                            sendMail.execute();
-//                            GMail m = new GMail(getResources().getString(
-//                                    R.string.emailId), getResources().getString(
-//                                    R.string.pas));
-//                            m.setToAddresses("fatoom.21.19911@gmail.com");
-//                            m.setFromAddress("grapesalesapp@gmail.com");
-//                            m.setMailSubject("helllo");
-//                            m.setMailBody("hello");
-//                            try {
-//                                m.send();
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                            Log.e("maaaail", m. + "");
+                            orderNow();
                         }
                     }, new DialogInterface.OnClickListener() {
                         @Override

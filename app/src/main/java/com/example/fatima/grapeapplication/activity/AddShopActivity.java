@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -30,6 +31,7 @@ import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Locale;
 
 public class AddShopActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText fullNameEditText, mobileEditText, identityEditText, bioEditText, recordEditText;
@@ -43,6 +45,12 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale locale = new Locale("ar");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_add_shop);
         connectionManager = new ConnectionManager(this);
         category = getIntent().getStringExtra("category");
@@ -84,9 +92,6 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void addShop() {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.loading));
-        progressDialog.show();
 
         String shop_name = fullNameEditText.getText().toString().trim();
         String shop_address = mobileEditText.getText().toString().trim();
@@ -106,7 +111,12 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         } else if (TextUtils.isEmpty(shop_bio)) {
             bioEditText.setError(getString(R.string.required_field));
             bioEditText.requestFocus();
+        } else if (fileSchema == null) {
+            AppErrorsManager.showErrorDialog(this, getString(R.string.you_should_attach_image_shop));
         } else {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.loading));
+            progressDialog.show();
             Shop shop = new Shop();
             shop.setName(shop_name);
             shop.setAddress(shop_address);

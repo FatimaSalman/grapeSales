@@ -1,6 +1,7 @@
 package com.example.fatima.grapeapplication.callback;
 
 import com.example.fatima.grapeapplication.model.Offer;
+import com.example.fatima.grapeapplication.model.Order;
 import com.example.fatima.grapeapplication.model.Shop;
 import com.example.fatima.grapeapplication.model.User;
 
@@ -28,5 +29,19 @@ public interface ConnectionManagerInterface {
 
     void getShopListForUser(final Shop shop, final InstallCallback callback);
 
-    void offerList( final InstallCallback callback);
+    void offerList(final InstallCallback callback);
+
+    void allShopList(final InstallCallback callback);
+
+    void getShopSearch(final String city_name, final String category_name, final String shop_name, final InstallCallback callback);
+
+    void getOfferSearch(final String offer_name, final InstallCallback callback);
+
+    void applyOrder(final Order order, final InstallCallback callback);
+
+    void addFcmToken(final String fcm_token, final InstallCallback callback);
+
+    void allOrderList(final String user_id, final InstallCallback callback);
+
+    void orderDetails(final String order_id, final InstallCallback callback);
 }

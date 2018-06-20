@@ -3,6 +3,7 @@ package com.example.fatima.grapeapplication.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -15,11 +16,19 @@ import com.example.fatima.grapeapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SelectTypeActivity extends AppCompatActivity implements View.OnClickListener {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale locale = new Locale("ar");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_select_type);
         init();
         checkAndRequestPermissions();

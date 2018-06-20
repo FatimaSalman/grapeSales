@@ -1,6 +1,8 @@
 package com.example.fatima.grapeapplication.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,6 +18,7 @@ import com.example.fatima.grapeapplication.model.Offer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class OfferListActivity extends AppCompatActivity implements View.OnClickListener {
     private List<Offer> offerList = new ArrayList<>();
@@ -23,6 +26,12 @@ public class OfferListActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale locale = new Locale("ar");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_offer_list);
         init();
     }
@@ -31,6 +40,14 @@ public class OfferListActivity extends AppCompatActivity implements View.OnClick
 
         RelativeLayout backLayout = findViewById(R.id.backLayout);
         backLayout.setOnClickListener(this);
+        final SwipeRefreshLayout swipeRefresh = findViewById(R.id.swipeRefresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefresh.setRefreshing(false);
+                getShopList();
+            }
+        });
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         OfferListAdapter shopAdapter = new OfferListAdapter(this, offerList, new OnItemClickListener() {

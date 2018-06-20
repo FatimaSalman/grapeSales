@@ -1,9 +1,58 @@
 package com.example.fatima.grapeapplication.model;
 
 public class Order {
-    private String id, shop_id, offer_id, userName, mobile, address, note;
+    private String id, shop_id, offer_id, userName, mobile, address, note, user_id, shop_name,
+            offer_name, image, created_at;
+
+    public Order(String id, String shop_name, String offer_name, String image, String created_at) {
+        this.id = id;
+        this.shop_name = shop_name;
+        this.offer_name = offer_name;
+        this.image = image;
+        this.created_at = created_at;
+    }
 
     public Order() {
+    }
+
+    public String getShop_name() {
+        return shop_name;
+    }
+
+    public void setShop_name(String shop_name) {
+        this.shop_name = shop_name;
+    }
+
+    public String getOffer_name() {
+        return offer_name;
+    }
+
+    public void setOffer_name(String offer_name) {
+        this.offer_name = offer_name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getId() {

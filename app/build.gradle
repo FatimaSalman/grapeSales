@@ -24,26 +24,32 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.google.okhttp:okhttp:20120626'
-    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
+    implementation 'com.daimajia.slider:library:1.1.5@aar'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'com.booking:rtlviewpager:1.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation 'com.google.firebase:firebase-crash:16.0.0'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.google.android.gms:play-services-vision:15.0.2'
+    //noinspection GradleCompatible
+    implementation 'com.google.android.gms:play-services-gcm:15.0.1'
+    //noinspection UseOfBundledGooglePlayServices
+    implementation 'com.google.android.gms:play-services:12.0.1'
+    implementation 'de.greenrobot:eventbus:2.4.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation files('libs/mail.jar')
-    implementation files('libs/additionnal.jar')
-    implementation files('libs/activation.jar')
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation 'com.google.android.gms:play-services-auth:11.8.0'
-    implementation 'pub.devrel:easypermissions:0.3.0'
-    implementation('com.google.api-client:google-api-client-android:1.23.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }
-    implementation('com.google.apis:google-api-services-gmail:v1-rev83-1.23.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }
+
 }
+
+apply plugin: 'com.google.gms.google-services'

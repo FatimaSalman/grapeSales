@@ -1,12 +1,27 @@
 package com.example.fatima.grapeapplication.model;
 
 import java.io.File;
+import java.util.List;
 
 public class Offer {
-    private String id, offerTitle, offerBio, previousPrice, NextPrice, offerImage, shop_id;
+    private String id, offerTitle, offerBio, previousPrice, NextPrice, offerImage, shop_id, user_id;
     private File imageFile;
+    private List<Images> imagesList;
 
-    public Offer(String id, String offerTitle, String offerBio, String previousPrice, String nextPrice, String offerImage, String shop_id) {
+    public Offer(String id, String offerTitle, String offerBio, String previousPrice,
+                 String user_id, String nextPrice, String offerImage, String shop_id) {
+        this.id = id;
+        this.offerTitle = offerTitle;
+        this.offerBio = offerBio;
+        this.previousPrice = previousPrice;
+        this.NextPrice = nextPrice;
+        this.offerImage = offerImage;
+        this.shop_id = shop_id;
+        this.user_id = user_id;
+    }
+
+    public Offer(String id, String offerTitle, String offerBio, String previousPrice,
+                 String nextPrice, String offerImage, String shop_id) {
         this.id = id;
         this.offerTitle = offerTitle;
         this.offerBio = offerBio;
@@ -18,6 +33,22 @@ public class Offer {
 
     public Offer() {
 
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public List<Images> getImagesList() {
+        return imagesList;
+    }
+
+    public void setImagesList(List<Images> imagesList) {
+        this.imagesList = imagesList;
     }
 
     public String getShop_id() {

@@ -1,7 +1,7 @@
 package com.example.fatima.grapeapplication.model;
 
 public class User {
-    private String id, full_name, phone, password, token, type, is_active;
+    private String id, full_name, phone, password, token, type, is_active, fcm_token;
 
     public User() {
     }
@@ -11,6 +11,14 @@ public class User {
         this.full_name = full_name;
         this.phone = phone;
         this.password = password;
+    }
+
+    public String getFcm_token() {
+        return fcm_token;
+    }
+
+    public void setFcm_token(String fcm_token) {
+        this.fcm_token = fcm_token;
     }
 
     public String getIs_active() {

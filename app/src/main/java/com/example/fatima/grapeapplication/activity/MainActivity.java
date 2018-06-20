@@ -1,7 +1,9 @@
 package com.example.fatima.grapeapplication.activity;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,15 +25,22 @@ import android.widget.RelativeLayout;
 import com.example.fatima.grapeapplication.R;
 import com.example.fatima.grapeapplication.adapter.ItemAdapter;
 import com.example.fatima.grapeapplication.callback.OnItemClickListener;
+import com.example.fatima.grapeapplication.callback.RegisterCallback;
 import com.example.fatima.grapeapplication.fragment.CategoriesFragment;
+import com.example.fatima.grapeapplication.fragment.ContactUsFragment;
 import com.example.fatima.grapeapplication.fragment.OffersFragment;
+import com.example.fatima.grapeapplication.fragment.OrdersFragment;
 import com.example.fatima.grapeapplication.fragment.ProfileFragment;
 import com.example.fatima.grapeapplication.fragment.WelcomeFragment;
+import com.example.fatima.grapeapplication.manager.AppErrorsManager;
 import com.example.fatima.grapeapplication.manager.AppPreferences;
+import com.example.fatima.grapeapplication.manager.ConnectionManager;
 import com.example.fatima.grapeapplication.model.MenuItem;
+import com.example.fatima.grapeapplication.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,13 +48,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView navigationView;
     private List<MenuItem> menuItemList = new ArrayList<>();
     private ItemAdapter itemAdapter;
+    private ConnectionManager connectionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Locale locale = new Locale("ar");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_main);
-
+        connectionManager = new ConnectionManager(this);
         init();
+        if (!AppPreferences.getString(this, "token").equals("0")) {
+            if (getIntent().getStringExtra("is_active") != null) {
+                if (getIntent().getStringExtra("is_active").equals("active"))
+                    getUserDetails();
+            } else getUserDetails();
+        }
     }
 
     public void init() {
@@ -61,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        RelativeLayout searchLayout = findViewById(R.id.searchLayout);
+        searchLayout.setOnClickListener(this);
         RelativeLayout menuLayout = findViewById(R.id.menuLayout);
         menuLayout.setOnClickListener(this);
         replaceFragment(new CategoriesFragment());
@@ -77,18 +101,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     replaceFragment(new OffersFragment());
                     toggleSlidingMenu();
 
+                } else if (TextUtils.equals(menuItemList.get(position).getId(), "2")) {
+                    replaceFragment(new OrdersFragment());
+                    toggleSlidingMenu();
+
                 } else if (AppPreferences.getString(MainActivity.this, "token").equals("0")) {
-                    if (TextUtils.equals(menuItemList.get(position).getId(), "2")) {
+                    if (TextUtils.equals(menuItemList.get(position).getId(), "3")) {
                         replaceFragment(new WelcomeFragment());
                         toggleSlidingMenu();
                     }
                 } else {
-                    if (TextUtils.equals(menuItemList.get(position).getId(), "2")) {
+                    if (TextUtils.equals(menuItemList.get(position).getId(), "4")) {
                         replaceFragment(new ProfileFragment());
                         toggleSlidingMenu();
                     }
                 }
                 if (TextUtils.equals(menuItemList.get(position).getId(), "5")) {
+                    replaceFragment(new ContactUsFragment());
+                    toggleSlidingMenu();
+                }
+                if (TextUtils.equals(menuItemList.get(position).getId(), "6")) {
                     AppPreferences.clearAll(MainActivity.this);
                     Intent intent = new Intent(MainActivity.this, SelectTypeActivity.class);
                     startActivity(intent);
@@ -108,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         if (id == R.id.menuLayout) {
             toggleSlidingMenu();
+        } else if (id == R.id.searchLayout) {
+            startActivity(new Intent(this, SearchActivity.class));
         }
     }
 
@@ -124,19 +158,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menuItemList.add(menuItem);
         menuItem = new MenuItem("1", "عروض حصرية");
         menuItemList.add(menuItem);
-        if (AppPreferences.getString(this, "token").equals("0")) {
-            menuItem = new MenuItem("2", "صفحة التسجيل");
-            menuItemList.add(menuItem);
-        } else {
-            menuItem = new MenuItem("2", "الملف الشخصي");
+        if (!AppPreferences.getString(this, "token").equals("0")) {
+            menuItem = new MenuItem("2", "الطلبات");
             menuItemList.add(menuItem);
         }
-        menuItem = new MenuItem("3", "اتصل بنا");
-        menuItemList.add(menuItem);
-        menuItem = new MenuItem("4", "من نحن");
+        if (AppPreferences.getString(this, "token").equals("0")) {
+            menuItem = new MenuItem("3", "صفحة التسجيل");
+            menuItemList.add(menuItem);
+        } else {
+            menuItem = new MenuItem("4", "الملف الشخصي");
+            menuItemList.add(menuItem);
+        }
+        menuItem = new MenuItem("5", "اتصل بنا");
         menuItemList.add(menuItem);
         if (!AppPreferences.getString(this, "token").equals("0")) {
-            menuItem = new MenuItem("5", "تسجيل الخروج");
+            menuItem = new MenuItem("6", "تسجيل الخروج");
             menuItemList.add(menuItem);
         }
 
@@ -148,5 +184,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.replace(R.id.container, fragment, fragment.toString());
         fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+    }
+
+    public void getUserDetails() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.show();
+        connectionManager.getDetails(AppPreferences.getString(MainActivity.this, "token"), new RegisterCallback() {
+            @Override
+            public void onUserRegisterDone(User user) {
+                progressDialog.dismiss();
+                AppPreferences.saveString(MainActivity.this, "active", user.getIs_active());
+
+            }
+
+            @Override
+            public void onError(String error) {
+                progressDialog.dismiss();
+                AppErrorsManager.showErrorDialog(MainActivity.this, error);
+            }
+        });
+
     }
 }

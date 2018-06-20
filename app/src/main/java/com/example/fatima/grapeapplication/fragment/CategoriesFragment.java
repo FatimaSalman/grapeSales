@@ -1,14 +1,10 @@
 package com.example.fatima.grapeapplication.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.fatima.grapeapplication.R;
-import com.example.fatima.grapeapplication.activity.AddShopActivity;
-import com.example.fatima.grapeapplication.activity.OfferListActivity;
-import com.example.fatima.grapeapplication.activity.ShopDetailsActivity;
-import com.example.fatima.grapeapplication.adapter.ShopAdapter;
-import com.example.fatima.grapeapplication.callback.OnItemClickListener;
-import com.example.fatima.grapeapplication.model.Shop;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CategoriesFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout layout;
@@ -40,6 +27,9 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
 
 
     public void init(View view) {
+        TextView title = getActivity().findViewById(R.id.registerTitle);
+        title.setText(getString(R.string.main));
+
         RelativeLayout clothLayout = view.findViewById(R.id.clothLayout);
         RelativeLayout shopsLayout = view.findViewById(R.id.shopsLayout);
         RelativeLayout hosusLayout = view.findViewById(R.id.hosusLayout);
@@ -60,17 +50,17 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.clothLayout) {
-            replaceFragment(new PlacesFragment(),"Fashion");
+            replaceFragment(new PlacesFragment(), "Fashion");
         } else if (id == R.id.shopsLayout) {
-            replaceFragment(new PlacesFragment(),"Shops");
+            replaceFragment(new PlacesFragment(), "Shops");
         } else if (id == R.id.hosusLayout) {
-            replaceFragment(new PlacesFragment(),"Houseware");
+            replaceFragment(new PlacesFragment(), "Houseware");
         } else if (id == R.id.sportLayout) {
-            replaceFragment(new PlacesFragment(),"sports tool");
+            replaceFragment(new PlacesFragment(), "sports tool");
         } else if (id == R.id.furLayout) {
-            replaceFragment(new PlacesFragment(),"furniture");
+            replaceFragment(new PlacesFragment(), "furniture");
         } else if (id == R.id.resturanceLayout) {
-            replaceFragment(new PlacesFragment(),"Restaurants");
+            replaceFragment(new PlacesFragment(), "Restaurants");
         }
     }
 

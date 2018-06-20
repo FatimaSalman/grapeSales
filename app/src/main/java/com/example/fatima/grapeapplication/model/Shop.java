@@ -8,12 +8,13 @@ public class Shop implements Serializable {
             is_active, category_name, city_name, record_no;
     private File imageFile;
 
-    public Shop(String id, String name, String address, String offerCount, String shopImage) {
+    public Shop(String id, String name, String address, String offerCount, String shopImage, String shop_phone) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.offerCount = offerCount;
         this.shopImage = shopImage;
+        this.shop_phone = shop_phone;
     }
 
     public Shop() {

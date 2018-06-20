@@ -112,6 +112,7 @@ public class FontManager {
         if (v == null)
             return;
 
+        assert inputManager != null;
         inputManager.hideSoftInputFromWindow(v.getRootView().getWindowToken(), 0);
     }
 }

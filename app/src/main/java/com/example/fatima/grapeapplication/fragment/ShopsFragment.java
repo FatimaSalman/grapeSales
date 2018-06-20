@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -74,7 +75,7 @@ public class ShopsFragment extends Fragment implements View.OnClickListener {
                 title.setText(getString(R.string.jabalia));
                 break;
             case "Beit Hanoun":
-                title.setText(getString(R.string.bitHanon));
+                title.setText(getString(R.string.bitHanona));
                 break;
             case "Central":
                 title.setText(getString(R.string.middle));
@@ -88,7 +89,6 @@ public class ShopsFragment extends Fragment implements View.OnClickListener {
         }
 
         progressbar = view.findViewById(R.id.waitProgress);
-        progressbar.setVisibility(View.VISIBLE);
         noTxt = view.findViewById(R.id.noTxt);
         ObjectAnimator animation = ObjectAnimator.ofFloat(progressbar, "rotationY", 0.0f, 360f);
         animation.setDuration(1000);
@@ -96,7 +96,7 @@ public class ShopsFragment extends Fragment implements View.OnClickListener {
         animation.setInterpolator(new AccelerateDecelerateInterpolator());
         animation.start();
 
-        RelativeLayout addLayout = view.findViewById(R.id.addLayout);
+        final RelativeLayout addLayout = view.findViewById(R.id.addLayout);
         addLayout.setOnClickListener(this);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
@@ -121,6 +121,23 @@ public class ShopsFragment extends Fragment implements View.OnClickListener {
             noTxt.setText("يجب تسجيل الدخول او الاشتراك لاضافة معرض");
             addLayout.setVisibility(View.GONE);
         }
+
+        final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefresh.setRefreshing(false);
+                if (!user_id.equals("0")) {
+                    getShopList();
+                    addLayout.setVisibility(View.VISIBLE);
+                } else {
+                    progressbar.setVisibility(View.GONE);
+                    noTxt.setVisibility(View.VISIBLE);
+                    noTxt.setText("يجب تسجيل الدخول او الاشتراك لاضافة معرض");
+                    addLayout.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
@@ -140,6 +157,7 @@ public class ShopsFragment extends Fragment implements View.OnClickListener {
 
     public void getShopList() {
         shopList.clear();
+        progressbar.setVisibility(View.VISIBLE);
         noTxt.setVisibility(View.GONE);
         Shop shop = new Shop();
         shop.setUser_id(user_id);
@@ -167,7 +185,7 @@ public class ShopsFragment extends Fragment implements View.OnClickListener {
                             String category_name = jsonObject.getString("category_name");
                             String city_name = jsonObject.getString("city_name");
                             String count = jsonObject.getString("count");
-                            Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url);
+                            Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url, shop_phone);
                             shopList.add(shop1);
                             progressbar.setVisibility(View.GONE);
                             noTxt.setVisibility(View.GONE);
@@ -198,6 +216,4 @@ public class ShopsFragment extends Fragment implements View.OnClickListener {
             getShopList();
         }
     }
-
-
 }

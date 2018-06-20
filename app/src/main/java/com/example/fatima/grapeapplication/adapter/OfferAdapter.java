@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         holder.addressTxt.setText(item.getOfferBio());
         holder.offerNextPrice.setText(item.getNextPrice());
         holder.offerPreviousPrice.setText(item.getPreviousPrice());
+        Log.e("images", FontManager.IMAGE_URL + item.getOfferImage());
         holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(context).load(FontManager.IMAGE_URL + item.getOfferImage()).into(holder.offerImage, new Callback() {
             @Override

@@ -1,14 +1,10 @@
 package com.example.fatima.grapeapplication.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.fatima.grapeapplication.R;
-import com.example.fatima.grapeapplication.activity.AddShopActivity;
-import com.example.fatima.grapeapplication.activity.OfferListActivity;
-import com.example.fatima.grapeapplication.activity.ShopDetailsActivity;
-import com.example.fatima.grapeapplication.adapter.ShopAdapter;
-import com.example.fatima.grapeapplication.callback.OnItemClickListener;
-import com.example.fatima.grapeapplication.model.Shop;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class PlacesFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout layout;
     private String category;
@@ -60,7 +46,7 @@ public class PlacesFragment extends Fragment implements View.OnClickListener {
                 title.setText(getString(R.string.sport));
                 break;
             case "furniture":
-                title.setText(getString(R.string.furth));
+                title.setText(getString(R.string.furth_));
                 break;
             case "Restaurants":
                 title.setText(getString(R.string.resturance));
