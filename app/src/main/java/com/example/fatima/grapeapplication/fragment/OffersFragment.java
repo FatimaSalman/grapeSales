@@ -144,11 +144,12 @@ public class OffersFragment extends Fragment {
                             String befor_discount = jsonObject.getString("befor_discount");
                             String after_discount = jsonObject.getString("after_discount");
                             String offer_image = jsonObject.getString("offer_image");
+                            String rating = jsonObject.getString("rating");
                             JSONArray jsonArray2 = new JSONArray(offer_image);
                             String image = jsonArray2.getString(0);
                             String shop_id = jsonObject.getString("shop_id");
                             Offer offer = new Offer(id, offer_name, offer_bio, befor_discount,
-                                    after_discount, image, shop_id);
+                                    after_discount, image, shop_id, rating, "");
                             offerList.add(offer);
                             progressbar.setVisibility(View.GONE);
                             noTxt.setVisibility(View.GONE);
@@ -196,6 +197,7 @@ public class OffersFragment extends Fragment {
                             String offer_bio = jsonObject.getString("offer_bio");
                             String befor_discount = jsonObject.getString("befor_discount");
                             String after_discount = jsonObject.getString("after_discount");
+                            String rating = jsonObject.getString("rating");
                             String offer_image = jsonObject.getString("offer_image");
 
                             JSONArray jsonArray2 = new JSONArray(offer_image);
@@ -203,7 +205,7 @@ public class OffersFragment extends Fragment {
 
                             String shop_id = jsonObject.getString("shop_id");
                             Offer offer = new Offer(id, offer_name, offer_bio, befor_discount,
-                                    after_discount, image, shop_id);
+                                    after_discount, image, shop_id, rating, "");
                             offerList.add(offer);
                             progressbar.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);

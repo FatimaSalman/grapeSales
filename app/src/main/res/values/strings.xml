@@ -95,4 +95,7 @@
     <string name="_970_599_411_474">+970 599 411 474</string>
     <string name="graps_note">تطبيق قطوف يجمع لك جميع التخفضيات في قطاع غزة … ولنعمل على خدمة أفضل يمكنك طلب العرض الذي تريد عبرنا .. رضاكم هدفنا</string>
     <string name="contact_us">اتصل بنا</string>
+    <string name="rating">التقييم</string>
+    <string name="rating_now">قيم الآن</string>
+    <string name="thanks_for_rating">شكراً لتعاملكم معنا… يمكننك تقييم العرض الآن</string>
 </resources>

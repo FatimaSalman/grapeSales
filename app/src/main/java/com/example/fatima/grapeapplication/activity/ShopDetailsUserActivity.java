@@ -185,13 +185,14 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
                             String befor_discount = jsonObject.getString("befor_discount");
                             String after_discount = jsonObject.getString("after_discount");
                             String offer_image = jsonObject.getString("offer_image");
+                            String rating = jsonObject.getString("rating");
 
                             JSONArray jsonArray2 = new JSONArray(offer_image);
                             String image = jsonArray2.getString(0);
 
                             String shop_id = jsonObject.getString("shop_id");
                             Offer offer = new Offer(id, offer_name, offer_bio, befor_discount,
-                                    after_discount, image, shop_id);
+                                    after_discount, image, shop_id, rating, "");
                             offerList.add(offer);
                             recyclerView.setVisibility(View.VISIBLE);
                             progressbar.setVisibility(View.GONE);
@@ -241,13 +242,14 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
                             String befor_discount = jsonObject.getString("befor_discount");
                             String after_discount = jsonObject.getString("after_discount");
                             String offer_image = jsonObject.getString("offer_image");
+                            String rating = jsonObject.getString("rating");
 
                             JSONArray jsonArray2 = new JSONArray(offer_image);
                             String image = jsonArray2.getString(0);
 
                             String shop_id = jsonObject.getString("shop_id");
                             Offer offer = new Offer(id, offer_name, offer_bio, befor_discount,
-                                    after_discount, image, shop_id);
+                                    after_discount, image, shop_id, rating, "");
                             offerList.add(offer);
                             recyclerView.setVisibility(View.VISIBLE);
                             progressbar.setVisibility(View.GONE);

@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 public class Offer {
-    private String id, offerTitle, offerBio, previousPrice, NextPrice, offerImage, shop_id, user_id;
+    private String id, offerTitle, offerBio, previousPrice, NextPrice, offerImage, shop_id, user_id, rating;
     private File imageFile;
     private List<Images> imagesList;
 
@@ -21,7 +21,7 @@ public class Offer {
     }
 
     public Offer(String id, String offerTitle, String offerBio, String previousPrice,
-                 String nextPrice, String offerImage, String shop_id) {
+                 String nextPrice, String offerImage, String shop_id, String rating, String data) {
         this.id = id;
         this.offerTitle = offerTitle;
         this.offerBio = offerBio;
@@ -29,10 +29,19 @@ public class Offer {
         this.NextPrice = nextPrice;
         this.offerImage = offerImage;
         this.shop_id = shop_id;
+        this.rating = rating;
     }
 
     public Offer() {
 
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public String getUser_id() {

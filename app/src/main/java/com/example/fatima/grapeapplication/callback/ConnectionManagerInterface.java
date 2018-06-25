@@ -46,4 +46,8 @@ public interface ConnectionManagerInterface {
     void orderDetails(final String order_id, final InstallCallback callback);
 
     void getOfferStoreSearch(final String id, final String offer_name, final InstallCallback callback);
+
+    void ratingOffer(final String offer_id, final String rating, final InstallCallback callback);
+
+    void ratingNumber(final String offer_id, final InstallCallback callback);
 }

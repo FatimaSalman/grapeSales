@@ -1790,4 +1790,149 @@ public class ConnectionManager implements ConnectionManagerInterface {
             }
         });
     }
+
+    @Override
+    public void ratingOffer(final String offer_id, final String rating, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("offer_id", offer_id)
+                                    .addFormDataPart("rating", rating);
+
+                            RequestBody requestBody = formBody.build();
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "ratingOffers").post(requestBody).build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void ratingNumber(final String offer_id, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "ratingNumber/" + offer_id).get().build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
 }

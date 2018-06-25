@@ -47,8 +47,26 @@
                 android:fontFamily="@font/droid_kufi_bold"
                 android:text="@string/offer_details"
                 android:textColor="@color/colorWhite"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                custom:ignore="RelativeOverlap" />
 
+            <RelativeLayout
+                android:id="@+id/starLayout"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ic_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_star" />
+            </RelativeLayout>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
@@ -134,13 +152,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/shopNameTxt"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/droid_kufi_regular"
                     android:gravity="center_horizontal"
                     android:text="@string/offer_bio"
                     android:textColor="@color/colorWhite"
                     android:textSize="13.2sp" />
+
+                <RatingBar
+                    android:id="@+id/rating"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/shopAddressTxt"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="5dp"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:theme="@style/RatingBar" />
             </RelativeLayout>
 
             <RelativeLayout

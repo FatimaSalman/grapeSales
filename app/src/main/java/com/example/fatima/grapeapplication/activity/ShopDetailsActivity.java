@@ -186,6 +186,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
                             String befor_discount = jsonObject.getString("befor_discount");
                             String after_discount = jsonObject.getString("after_discount");
                             String offer_image = jsonObject.getString("offer_image");
+                            String rating = jsonObject.getString("rating");
 
                             JSONArray jsonArray2 = new JSONArray(offer_image);
                             String image = jsonArray2.getString(0);
@@ -193,7 +194,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
 
                             String shop_id = jsonObject.getString("shop_id");
                             Offer offer = new Offer(id, offer_name, offer_bio, befor_discount,
-                                    after_discount, image, shop_id);
+                                    after_discount, image, shop_id, rating, "");
                             offerList.add(offer);
                             progressbar.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
@@ -224,7 +225,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
         progressbar.setVisibility(View.VISIBLE);
         noTxt.setVisibility(View.GONE);
         String offerName = offerEditText.getText().toString().trim();
-        connectionManager.getOfferStoreSearch(shop.getId(),offerName, new InstallCallback() {
+        connectionManager.getOfferStoreSearch(shop.getId(), offerName, new InstallCallback() {
             @Override
             public void onStatusDone(String status) {
 
@@ -243,13 +244,14 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
                             String befor_discount = jsonObject.getString("befor_discount");
                             String after_discount = jsonObject.getString("after_discount");
                             String offer_image = jsonObject.getString("offer_image");
+                            String rating = jsonObject.getString("rating");
 
                             JSONArray jsonArray2 = new JSONArray(offer_image);
                             String image = jsonArray2.getString(0);
 
                             String shop_id = jsonObject.getString("shop_id");
                             Offer offer = new Offer(id, offer_name, offer_bio, befor_discount,
-                                    after_discount, image, shop_id);
+                                    after_discount, image, shop_id,rating,"");
                             offerList.add(offer);
                             progressbar.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);

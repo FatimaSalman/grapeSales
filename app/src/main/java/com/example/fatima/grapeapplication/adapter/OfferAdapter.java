@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.fatima.grapeapplication.R;
@@ -34,10 +35,12 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         TextView offerNameTxt, addressTxt, offerNextPrice, offerPreviousPrice;
         ProgressBar progressBar;
         RoundedImageView offerImage;
+        RatingBar rating;
 
         MyViewHolder(View view) {
             super(view);
             offerNameTxt = view.findViewById(R.id.offerNameTxt);
+            rating = view.findViewById(R.id.rating);
             addressTxt = view.findViewById(R.id.addressTxt);
             offerNextPrice = view.findViewById(R.id.offerNextPrice);
             offerPreviousPrice = view.findViewById(R.id.offerPreviousPrice);
@@ -70,6 +73,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         holder.addressTxt.setText(item.getOfferBio());
         holder.offerNextPrice.setText(item.getNextPrice());
         holder.offerPreviousPrice.setText(item.getPreviousPrice());
+        holder.rating.setRating(Float.parseFloat(item.getRating()));
         Log.e("images", FontManager.IMAGE_URL + item.getOfferImage());
         holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(context).load(FontManager.IMAGE_URL + item.getOfferImage()).into(holder.offerImage, new Callback() {

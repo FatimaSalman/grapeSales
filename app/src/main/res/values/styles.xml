@@ -35,4 +35,9 @@
         <item name="unselected_width">6dp</item>
         <item name="unselected_height">6dp</item>
     </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#AAB8C2</item>
+        <item name="colorControlActivated">#F5A623</item>
+    </style>
 </resources>

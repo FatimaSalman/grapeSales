@@ -1,6 +1,9 @@
 package com.example.fatima.grapeapplication.activity;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Paint;
@@ -12,9 +15,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,6 +31,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.fatima.grapeapplication.R;
 import com.example.fatima.grapeapplication.adapter.OfferAdapter;
+import com.example.fatima.grapeapplication.callback.InstallCallback;
 import com.example.fatima.grapeapplication.callback.OfferCallback;
 import com.example.fatima.grapeapplication.callback.OnItemClickListener;
 import com.example.fatima.grapeapplication.manager.AppErrorsManager;
@@ -55,6 +61,8 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
     private String imageArray;
     private Handler handler;
     private ScrollView scrollView;
+    private int total = 0;
+    private RatingBar rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +84,13 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
     public void init() {
 
         RelativeLayout backLayout = findViewById(R.id.backLayout);
+        RelativeLayout starLayout = findViewById(R.id.starLayout);
+        rating = findViewById(R.id.rating);
         scrollView = findViewById(R.id.scrollView);
         scrollView.setVisibility(View.GONE);
         Button backBtn = findViewById(R.id.backBtn);
         backLayout.setOnClickListener(this);
+        starLayout.setOnClickListener(this);
         Button orderBtn = findViewById(R.id.orderBtn);
         orderBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
@@ -93,6 +104,7 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
         sliderLayout = findViewById(R.id.slider);
 
         getOfferDetails();
+        getRatingNumber();
     }
 
     public void getImageListSlider() {
@@ -155,6 +167,8 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
             intent.putExtra("shop_id", shop_id);
             intent.putExtra("user_id", user_id);
             startActivity(intent);
+        } else if (id == R.id.starLayout) {
+            openDialogRating();
         }
     }
 
@@ -199,5 +213,70 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
+    }
+
+    public void getRatingNumber() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.show();
+        connectionManager.ratingNumber(offer_id, new InstallCallback() {
+            @Override
+            public void onStatusDone(String status) {
+                progressDialog.dismiss();
+                rating.setRating(Float.parseFloat(status));
+            }
+
+            @Override
+            public void onError(String error) {
+                progressDialog.dismiss();
+                AppErrorsManager.showErrorDialog(OfferDetailsActivity.this, error);
+            }
+        });
+
+    }
+
+    public void openDialogRating() {
+        LayoutInflater factory = LayoutInflater.from(this);
+        @SuppressLint("InflateParams") final View dialogView = factory.inflate(R.layout.select_rating_dialog, null);
+        final AlertDialog deleteDialog = new AlertDialog.Builder(this).create();
+        deleteDialog.setView(dialogView);
+
+        RatingBar rating = dialogView.findViewById(R.id.rating);
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                total = (int) v;
+            }
+        });
+
+        dialogView.findViewById(R.id.ratingBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ProgressDialog progressDialog = new ProgressDialog(OfferDetailsActivity.this);
+                progressDialog.setMessage(getString(R.string.loading));
+                progressDialog.show();
+                connectionManager.ratingOffer(offer_id, String.valueOf(total), new InstallCallback() {
+                    @Override
+                    public void onStatusDone(String status) {
+                        progressDialog.dismiss();
+
+                        AppErrorsManager.showSuccessDialog(OfferDetailsActivity.this, status, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getRatingNumber();
+                                deleteDialog.dismiss();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        progressDialog.dismiss();
+                        AppErrorsManager.showErrorDialog(OfferDetailsActivity.this, error);
+                    }
+                });
+            }
+        });
+        deleteDialog.show();
     }
 }

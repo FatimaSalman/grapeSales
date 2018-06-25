@@ -6,8 +6,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 
 import com.example.fatima.grapeapplication.R;
-import com.example.fatima.grapeapplication.fragment.LoginFragment;
-import com.example.fatima.grapeapplication.fragment.RegisterFragment;
 import com.example.fatima.grapeapplication.manager.FontManager;
 
 import java.util.Objects;
@@ -39,7 +37,9 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void init(View view) {
-        TextView title = getActivity().findViewById(R.id.registerTitle);
+        Toolbar toolBar = view.findViewById(R.id.toolBar);
+        toolBar.setVisibility(View.GONE);
+        TextView title = Objects.requireNonNull(getActivity()).findViewById(R.id.registerTitle);
         title.setText(getString(R.string.register_page));
 
         loginLayout = view.findViewById(R.id.loginLayout);

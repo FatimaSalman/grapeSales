@@ -45,7 +45,7 @@ public class SelectTypeActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.markerLayout) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
         } else if (id == R.id.userLayout) {
             Intent intent = new Intent(this, MainUserActivity.class);

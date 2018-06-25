@@ -213,7 +213,7 @@ public class ShopListForUserActivity extends AppCompatActivity implements View.O
         progressbar.setVisibility(View.VISIBLE);
         noTxt.setVisibility(View.GONE);
 
-        connectionManager.getShopSearch("", "", exhibtionName, new InstallCallback() {
+        connectionManager.getShopSearch(city, category, exhibtionName, new InstallCallback() {
             @Override
             public void onStatusDone(String status) {
                 if (status.equals("[]")) {
