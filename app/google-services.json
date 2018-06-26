@@ -8,6 +8,37 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:613721424816:android:7e29f01ad02aa62d",
+        "android_client_info": {
+          "package_name": "com.creatively.fatima.grapeapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613721424816-1l1oi7v7jdacrvss8376a779lnfl6nup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1DnXo8RHRwyKkd5upa_JADCei4kGogfc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:613721424816:android:c21e4434a78168a7",
         "android_client_info": {
           "package_name": "com.example.fatima.grapeapplication"
@@ -21,10 +52,6 @@
             "package_name": "com.example.fatima.grapeapplication",
             "certificate_hash": "64ea915066160b51e8a4773684ee1f1272eabd7b"
           }
-        },
-        {
-          "client_id": "613721424816-1l1oi7v7jdacrvss8376a779lnfl6nup.apps.googleusercontent.com",
-          "client_type": 3
         },
         {
           "client_id": "613721424816-1l1oi7v7jdacrvss8376a779lnfl6nup.apps.googleusercontent.com",

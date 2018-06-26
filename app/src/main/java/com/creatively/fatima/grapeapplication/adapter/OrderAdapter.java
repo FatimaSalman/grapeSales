@@ -1,0 +1,94 @@
+package com.creatively.fatima.grapeapplication.adapter;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Paint;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.creatively.fatima.grapeapplication.R;
+import com.creatively.fatima.grapeapplication.callback.OnItemClickListener;
+import com.creatively.fatima.grapeapplication.manager.FontManager;
+import com.creatively.fatima.grapeapplication.model.Offer;
+import com.creatively.fatima.grapeapplication.model.Order;
+import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
+
+    private List<Order> orderList;
+    private Context context;
+    private OnItemClickListener listener;
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView shopNameTxt, offerNameTxt, dateTxt;
+        ProgressBar progressBar;
+        RoundedImageView offerImage;
+
+        MyViewHolder(View view) {
+            super(view);
+            shopNameTxt = view.findViewById(R.id.shopNameTxt);
+            offerNameTxt = view.findViewById(R.id.offerNameTxt);
+            dateTxt = view.findViewById(R.id.dateTxt);
+            progressBar = view.findViewById(R.id.progressBar);
+            offerImage = view.findViewById(R.id.offerImage);
+        }
+    }
+
+    public OrderAdapter(Context context, List<Order> orderList, OnItemClickListener listener) {
+        this.orderList = orderList;
+        this.context = context;
+        this.listener = listener;
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.order_item_row, parent, false);
+
+        return new MyViewHolder(itemView);
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+        final Order item = orderList.get(position);
+        holder.offerNameTxt.setText(item.getOffer_name());
+        holder.shopNameTxt.setText(item.getShop_name());
+        holder.dateTxt.setText(item.getCreated_at());
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Picasso.with(context).load(FontManager.IMAGE_URL + item.getImage()).into(holder.offerImage, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(view, position);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return orderList.size();
+    }
+}
