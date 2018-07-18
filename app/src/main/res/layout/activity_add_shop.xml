@@ -108,7 +108,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/mobileEditText"
+                    android:id="@+id/addressEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/fullNameEditText"
@@ -124,10 +124,10 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/identityEditText"
+                    android:id="@+id/phoneEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/mobileEditText"
+                    android:layout_below="@+id/addressEditText"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_grape_solid_border"
                     android:fontFamily="@font/droid_kufi_regular"
@@ -143,7 +143,7 @@
                     android:id="@+id/recordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/identityEditText"
+                    android:layout_below="@+id/phoneEditText"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_grape_solid_border"
                     android:fontFamily="@font/droid_kufi_regular"

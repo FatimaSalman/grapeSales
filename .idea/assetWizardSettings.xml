@@ -45,10 +45,10 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\Fatima\Downloads\favorites-button.png" />
-                                      <entry key="outputName" value="ic_star" />
+                                      <entry key="imageAsset" value="C:\Users\Fatima\Downloads\dustbin.png" />
+                                      <entry key="outputName" value="ic_remove" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="ffffff" />
+                                      <entry key="themeColor" value="f70006" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -86,7 +86,6 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="ffffff" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
                                       <entry key="foregroundImage" value="E:\androidstudioapp\grapeApplication\app\src\main\res\drawable\logo_app.png" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />

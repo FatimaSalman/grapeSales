@@ -48,7 +48,7 @@
     <string name="offer_details">تفاصيل العرض</string>
     <string name="order_from_us">أطلب عبرنا</string>
     <string name="back">رجوع</string>
-    <string name="user">مستخدم</string>
+    <string name="user">مشتري</string>
     <string name="marker">تاجر</string>
     <string name="select_user_type">اختيار نوع المستخدم بما يناسبك</string>
     <string name="update">تحديث</string>
@@ -98,4 +98,5 @@
     <string name="rating">التقييم</string>
     <string name="rating_now">قيم الآن</string>
     <string name="thanks_for_rating">شكراً لتعاملكم معنا… يمكننك تقييم العرض الآن</string>
+    <string name="delete_offer">حذف</string>
 </resources>

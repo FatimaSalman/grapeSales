@@ -42,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/imageLayout">
+            android:layout_toEndOf="@+id/imageLayout"
+            android:layout_toStartOf="@+id/ic_remove">
 
             <TextView
                 android:id="@+id/shopNameTxt"
@@ -106,6 +107,24 @@
                     android:textSize="9.2sp" />
             </RelativeLayout>
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ic_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_remove" />
+
+        <ImageView
+            android:id="@+id/ic_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/ic_remove"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_edit" />
     </RelativeLayout>
 
 </RelativeLayout>

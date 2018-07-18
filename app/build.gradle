@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.creatively.fatima.grapeapplication"
+        applicationId "com.creatively.grapeSalesApp.grapeapplication"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 2
-        versionName "1.1"
+        versionCode 5
+        versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
