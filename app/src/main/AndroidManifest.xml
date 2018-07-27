@@ -96,6 +96,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.OrderDetailsActivity" />
+        <activity android:name=".activity.OrderUserDetailsActivity" />
 
         <service android:name=".FirebaseIDService">
             <intent-filter>

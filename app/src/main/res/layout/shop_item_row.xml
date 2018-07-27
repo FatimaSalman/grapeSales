@@ -70,11 +70,25 @@
                 android:textColor="@color/colorGrayDark"
                 android:textSize="9.2sp" />
 
+            <RatingBar
+                android:id="@+id/rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addressTxt"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="1"
+                android:theme="@style/RatingBar" />
+
             <View
                 android:id="@+id/view"
                 android:layout_width="33.7dp"
                 android:layout_height="0.3dp"
-                android:layout_below="@+id/addressTxt"
+                android:layout_below="@+id/rating"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorGray" />
 

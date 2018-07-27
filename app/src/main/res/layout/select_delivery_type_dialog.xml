@@ -12,12 +12,12 @@
         android:fontFamily="@font/droid_kufi_bold"
         android:gravity="center"
         android:padding="10dp"
-        android:text="@string/rating"
+        android:text="@string/select_delivery"
         android:textColor="@color/colorWhite"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/ratingOfferTxt"
+        android:id="@+id/txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
@@ -27,64 +27,38 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/droid_kufi_regular"
         android:gravity="center"
-        android:text="@string/thanks_for_rating"
+        android:text="@string/select_delivery_type"
         android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
-
-    <RatingBar
-        android:id="@+id/ratingOffer"
-        style="?android:attr/ratingBarStyleIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ratingOfferTxt"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:isIndicator="false"
-        android:numStars="5"
-        android:stepSize="1"
-        android:theme="@style/RatingBar" />
-
-    <TextView
-        android:id="@+id/ratingShopTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ratingOffer"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/droid_kufi_regular"
-        android:gravity="center"
-        android:text="@string/rating_shop"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
-
-    <RatingBar
-        android:id="@+id/ratingShop"
-        style="?android:attr/ratingBarStyleIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ratingShopTxt"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:isIndicator="false"
-        android:numStars="5"
-        android:stepSize="1"
-        android:theme="@style/RatingBar" />
+        android:textSize="14sp" />
 
     <Button
-        android:id="@+id/ratingBtn"
+        android:id="@+id/storeBtn"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ratingShop"
+        android:layout_below="@+id/txt"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/bg_grape_border"
         android:fontFamily="@font/droid_kufi_bold"
-        android:text="@string/rating_now"
+        android:text="@string/devlivery_from_store"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/serviceBtn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/storeBtn"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_grape_border"
+        android:fontFamily="@font/droid_kufi_bold"
+        android:text="@string/use_delivery_service"
         android:textColor="@color/colorPrimary" />
 
 </RelativeLayout>

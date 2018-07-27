@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     private OnItemClickListener listener;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView shopNameTxt, offerNameTxt, dateTxt;
+        TextView shopNameTxt, offerNameTxt, dateTxt, statusTxt;
         ProgressBar progressBar;
         RoundedImageView offerImage;
 
@@ -42,6 +43,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             dateTxt = view.findViewById(R.id.dateTxt);
             progressBar = view.findViewById(R.id.progressBar);
             offerImage = view.findViewById(R.id.offerImage);
+            statusTxt = view.findViewById(R.id.statusTxt);
         }
     }
 
@@ -67,6 +69,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         holder.offerNameTxt.setText(item.getOffer_name());
         holder.shopNameTxt.setText(item.getShop_name());
         holder.dateTxt.setText(item.getCreated_at());
+        if (TextUtils.equals(item.getStatus(), "0")) {
+            holder.statusTxt.setText("قيد الانتظار");
+        } else if (TextUtils.equals(item.getStatus(), "1")) {
+            holder.statusTxt.setText("قيد التجهيز");
+        } else if (TextUtils.equals(item.getStatus(), "2")) {
+            holder.statusTxt.setText("تم الغاء الطلب");
+        } else if (TextUtils.equals(item.getStatus(), "3")) {
+            holder.statusTxt.setText("تم رفض الطلب");
+        } else if (TextUtils.equals(item.getStatus(), "4")) {
+            holder.statusTxt.setText("قيد التوصيل");
+        } else if (TextUtils.equals(item.getStatus(), "5")) {
+            holder.statusTxt.setText("اكتمال الطلب");
+        }
         holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(context).load(FontManager.IMAGE_URL + item.getImage()).into(holder.offerImage, new Callback() {
             @Override

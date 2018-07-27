@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         RoundedImageView shopImage;
         ImageView ic_remove, ic_edit;
         RelativeLayout layout;
+        RatingBar rating;
 
         MyViewHolder(View view) {
             super(view);
@@ -45,6 +47,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
             shopNameTxt = view.findViewById(R.id.shopNameTxt);
             progressBar = view.findViewById(R.id.progressBar);
             shopImage = view.findViewById(R.id.shopImage);
+            rating = view.findViewById(R.id.rating);
             ic_remove = view.findViewById(R.id.ic_remove);
             ic_edit = view.findViewById(R.id.ic_edit);
             layout = view.findViewById(R.id.layout);
@@ -74,6 +77,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         holder.shopNameTxt.setText(item.getName());
         holder.addressTxt.setText(item.getAddress());
         holder.offerQuanityTxt.setText(item.getOfferCount());
+        holder.rating.setRating(Float.parseFloat(item.getRating()));
         holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(context).load(FontManager.IMAGE_URL + item.getShopImage())
                 .into(holder.shopImage, new Callback() {

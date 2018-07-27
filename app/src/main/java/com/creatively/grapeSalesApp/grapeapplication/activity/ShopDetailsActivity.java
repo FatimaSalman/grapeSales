@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
     private TextView noTxt;
     private RecyclerView recyclerView;
     private EditText offerEditText;
+    private RatingBar ratingStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void init() {
+        ratingStart = findViewById(R.id.rating);
         offerEditText = findViewById(R.id.offerEditText);
         offerEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -101,6 +104,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
 
         TextView shopAddressTxt = findViewById(R.id.shopAddressTxt);
         shopAddressTxt.setText(shop.getAddress());
+        ratingStart.setRating(Float.parseFloat(shop.getRating()));
         progressBar.setVisibility(View.VISIBLE);
         Picasso.with(this).load(FontManager.IMAGE_URL + shop.getShopImage())
                 .into(shopImage, new Callback() {

@@ -154,7 +154,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/userLayout"
+                    android:id="@+id/mobileLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -163,41 +163,11 @@
                     android:layout_marginTop="5dp">
 
                     <TextView
-                        android:id="@+id/txt2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/droid_kufi_bold"
-                        android:text="@string/user_name"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/userNameTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@+id/txt2"
-                        android:fontFamily="@font/droid_kufi_regular"
-                        android:text="@string/offer_name"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="12sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/mobileLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/userLayout"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp">
-
-                    <TextView
                         android:id="@+id/txt3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_kufi_bold"
-                        android:text="@string/mobile_number_user"
+                        android:text="@string/for_contact"
                         android:textColor="@color/colorWhite"
                         android:textSize="14sp" />
 
@@ -208,7 +178,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/txt3"
                         android:fontFamily="@font/droid_kufi_regular"
-                        android:text="@string/mobile_number"
+                        android:text="@string/_970_599_411_474"
                         android:textColor="@color/colorWhite"
                         android:textSize="12sp" />
                 </RelativeLayout>
@@ -410,54 +380,17 @@
             </RelativeLayout>
 
             <Button
-                android:id="@+id/agreeBtn"
+                android:id="@+id/cancelBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/priceLayout"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg_grape_border"
                 android:fontFamily="@font/droid_kufi_bold"
-                android:text="@string/agree_order"
+                android:text="@string/cancel_order"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark" />
 
-            <Button
-                android:id="@+id/doneBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/agreeBtn"
-                android:layout_margin="10dp"
-                android:background="@drawable/bg_grape_border"
-                android:fontFamily="@font/droid_kufi_bold"
-                android:text="@string/process_done"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/rejectBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/doneBtn"
-                android:layout_margin="10dp"
-                android:background="@drawable/bg_grape_border"
-                android:fontFamily="@font/droid_kufi_bold"
-                android:text="@string/reject_order"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <Button
-                android:id="@+id/completedBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rejectBtn"
-                android:layout_margin="10dp"
-                android:background="@drawable/bg_grape_border"
-                android:fontFamily="@font/droid_kufi_bold"
-                android:text="@string/completed_order"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
-                android:visibility="gone" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

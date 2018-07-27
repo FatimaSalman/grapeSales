@@ -37,7 +37,7 @@ public interface ConnectionManagerInterface {
 
     void getOfferSearch(final String offer_name, final InstallCallback callback);
 
-    void applyOrder(final Order order, final InstallCallback callback);
+    void applyOrder(final Order order, final String token, final InstallCallback callback);
 
     void addFcmToken(final String fcm_token, final InstallCallback callback);
 
@@ -56,4 +56,23 @@ public interface ConnectionManagerInterface {
     void deleteOffer(final String offer_id, final InstallCallback callback);
 
     void updateShop(final Shop shop, final InstallCallback callback);
+
+    void allUserOrderList(final String token, final InstallCallback callback);
+
+    void processDoneOrder(final String order_id, final InstallCallback callback);
+
+    void cancleOrder(final String order_id, final InstallCallback callback);
+
+    void rejectOrder(final String order_id, final InstallCallback callback);
+
+    void acceptOrder(final String order_id, final InstallCallback callback);
+
+    void completedOrder(final String order_id, final InstallCallback callback);
+
+    void deliveryType(final String order_id, final String type, final InstallCallback callback);
+
+    void ratingOfferShop(final String offer_id, final String rating_offer,
+                         final String shop_id, final String rating_shop, final InstallCallback callback);
+
+    void getShopDetails(final String shop_id, final InstallCallback callback);
 }

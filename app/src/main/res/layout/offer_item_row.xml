@@ -18,14 +18,14 @@
 
         <RelativeLayout
             android:id="@+id/imageLayout"
-            android:layout_width="120dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true">
 
             <com.github.siyamed.shapeimageview.RoundedImageView
                 android:id="@+id/offerImage"
-                android:layout_width="120dp"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
                 android:src="@drawable/photo"
                 app:siRadius="26.7dp" />
 

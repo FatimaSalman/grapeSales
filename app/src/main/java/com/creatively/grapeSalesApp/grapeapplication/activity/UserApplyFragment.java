@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.creatively.grapeSalesApp.grapeapplication.R;
 import com.creatively.grapeSalesApp.grapeapplication.callback.InstallCallback;
 import com.creatively.grapeSalesApp.grapeapplication.manager.AppErrorsManager;
+import com.creatively.grapeSalesApp.grapeapplication.manager.AppPreferences;
 import com.creatively.grapeSalesApp.grapeapplication.manager.ConnectionManager;
 import com.creatively.grapeSalesApp.grapeapplication.manager.GMail;
 import com.creatively.grapeSalesApp.grapeapplication.manager.SendMail;
@@ -34,7 +35,7 @@ import java.util.Locale;
 public class UserApplyFragment extends AppCompatActivity implements View.OnClickListener {
 
     private EditText fullNameEditText, mobileEditText, locationEditText, noteEditText;
-    private String offer_id, shop_id, user_id;
+    private String offer_id, shop_id, user_id, buyer_id;
     private ConnectionManager connectionManager;
 
     @Override
@@ -92,24 +93,26 @@ public class UserApplyFragment extends AppCompatActivity implements View.OnClick
             order.setAddress(location);
             order.setNote(note);
             order.setUser_id(user_id);
+            String token = AppPreferences.getString(this, "token");
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(getString(R.string.loading));
             progressDialog.show();
-            connectionManager.applyOrder(order, new InstallCallback() {
+            connectionManager.applyOrder(order, token, new InstallCallback() {
                 @Override
                 public void onStatusDone(String status) {
-                    AppErrorsManager.showSuccessDialog(UserApplyFragment.this, status, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            progressDialog.dismiss();
-                            finish();
-                        }
-                    });
+                    AppErrorsManager.showSuccessDialog(UserApplyFragment.this, status,
+                            getString(R.string.already_done), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    progressDialog.dismiss();
+                                    finish();
+                                }
+                            });
                 }
 
                 @Override
                 public void onError(String error) {
-                   progressDialog.dismiss();
+                    progressDialog.dismiss();
                     AppErrorsManager.showErrorDialog(UserApplyFragment.this, error);
                 }
             });

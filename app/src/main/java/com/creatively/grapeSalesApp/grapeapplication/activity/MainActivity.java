@@ -186,11 +186,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.commit();
     }
 
+//    @Override
+////    public void onBackPressed() {
+//////        moveTaskToBack(true);
+//////        android.os.Process.killProcess(android.os.Process.myPid());
+//////        System.exit(1);
+////    }
+
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
+        if (mDrawerLayout.isDrawerOpen(navigationView)) {
+            mDrawerLayout.closeDrawer(navigationView);
+        } else {
+            int fragments = getSupportFragmentManager().getBackStackEntryCount();
+            if (fragments == 1) {
+                finish();
+            } else {
+                if (getFragmentManager().getBackStackEntryCount() > 1) {
+                    getFragmentManager().popBackStack();
+                } else {
+                    super.onBackPressed();
+                }
+            }
+        }
     }
 
     public void getUserDetails() {

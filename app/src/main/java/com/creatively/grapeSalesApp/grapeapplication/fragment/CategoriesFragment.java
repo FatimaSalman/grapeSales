@@ -29,13 +29,14 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
     public void init(View view) {
         TextView title = getActivity().findViewById(R.id.registerTitle);
         title.setText(getString(R.string.main));
-
         RelativeLayout clothLayout = view.findViewById(R.id.clothLayout);
         RelativeLayout shopsLayout = view.findViewById(R.id.shopsLayout);
         RelativeLayout hosusLayout = view.findViewById(R.id.hosusLayout);
         RelativeLayout sportLayout = view.findViewById(R.id.sportLayout);
         RelativeLayout furLayout = view.findViewById(R.id.furLayout);
         RelativeLayout resturanceLayout = view.findViewById(R.id.resturanceLayout);
+        TextView select = view.findViewById(R.id.select);
+        select.setText(getString(R.string.select_category_store));
         layout = view.findViewById(R.id.layout);
         clothLayout.setOnClickListener(this);
         shopsLayout.setOnClickListener(this);

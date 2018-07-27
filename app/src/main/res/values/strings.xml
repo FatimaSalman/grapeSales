@@ -4,6 +4,7 @@
     <string name="password">كلمة المرور</string>
     <string name="confirmPassword">تأكيد كلمة المرور</string>
     <string name="mobile_number">رقم الهاتف أو المحمول</string>
+    <string name="mobile_number_">رقم الهاتف أو المحمول:</string>
     <string name="login">تسجيل دخول</string>
     <string name="full_name">الاسم بالكامل</string>
     <string name="register_page">صفحة التسجيل</string>
@@ -50,7 +51,7 @@
     <string name="back">رجوع</string>
     <string name="user">مشتري</string>
     <string name="marker">تاجر</string>
-    <string name="select_user_type">اختيار نوع المستخدم بما يناسبك</string>
+    <string name="select_user_type">أهلا وسهلا بك في تطبيق قطوف للعروض والتخفيضات يرجى منك اختيار صفتك الشخصية</string>
     <string name="update">تحديث</string>
     <string name="no_internet_connection">لا يوجد اتصال بالانترنت</string>
     <string name="required_field">هذا الحقل مطلوب</string>
@@ -91,6 +92,7 @@
     <string name="deleviry_done">تم التوصيل</string>
     <string name="dash">-</string>
     <string name="for_contact_us">للتواصل معنا:</string>
+    <string name="for_contact">للتواصل</string>
     <string name="grapesalesapp_gmail_com">grapesalesapp@gmail.com</string>
     <string name="_970_599_411_474">+970 599 411 474</string>
     <string name="graps_note">تطبيق قطوف يجمع لك جميع التخفضيات في قطاع غزة … ولنعمل على خدمة أفضل يمكنك طلب العرض الذي تريد عبرنا .. رضاكم هدفنا</string>
@@ -98,5 +100,24 @@
     <string name="rating">التقييم</string>
     <string name="rating_now">قيم الآن</string>
     <string name="thanks_for_rating">شكراً لتعاملكم معنا… يمكننك تقييم العرض الآن</string>
+    <string name="rating_shop">ويمكننك تقييم المعرض الآن</string>
     <string name="delete_offer">حذف</string>
+    <string name="select_category">يرجى اختيار التصنيف الذي ترغب برؤية عروضه</string>
+    <string name="select_city">يرجى اختيار المدينة الذي ترغب برؤية عروضها</string>
+    <string name="select_category_store">يرجى اختيار التصنيف الذي ترغب بإضافة معرضك فيه</string>
+    <string name="select_city_store">يرجى اختيار المدينة الذي ترغب بإضافة معرضك فيه</string>
+    <string name="already_done">طلبك في حالة التجهيز عند البائع ويمكنك التتبع من خلال صفحة طلباتك</string>
+    <string name="order_status">حالة الطلب</string>
+    <string name="agree_order">الموافقة على الطلب</string>
+    <string name="reject_order">رفض الطلب</string>
+    <string name="process_done">تم التجهيز</string>
+    <string name="cancel_order">إلغاء الطلب</string>
+    <string name="completed_order">اكتمال الطلب</string>
+    <string name="select_delivery">اختيار ألية التوصيل</string>
+    <string name="select_delivery_type">لقد قام التاجر بتجهيز طلبك الآن، يرجى منك اختيار الية التوصيل التي ترغب بها</string>
+    <string name="devlivery_from_store">الاستلام من المحل مباشرة</string>
+    <string name="use_delivery_service">استخدام خدمة التوصيل</string>
+    <string name="delivery_type">ألية التوصيل</string>
+    <string name="for_details">لمعرفة تفاصيل المعرض</string>
+    <string name="press_here">اضغط هنا</string>
 </resources>

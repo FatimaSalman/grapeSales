@@ -59,6 +59,8 @@ public class PlacesUserFragment extends Fragment implements View.OnClickListener
         RelativeLayout middleLayout = view.findViewById(R.id.middleLayout);
         RelativeLayout khanLayout = view.findViewById(R.id.khanLayout);
         RelativeLayout rafahLayout = view.findViewById(R.id.rafahLayout);
+        TextView select = view.findViewById(R.id.select);
+        select.setText(getString(R.string.select_city));
         gazaLayout.setOnClickListener(this);
         jabaliLayout.setOnClickListener(this);
         bitLayout.setOnClickListener(this);

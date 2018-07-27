@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.creatively.grapeSalesApp.grapeapplication.R;
+import com.creatively.grapeSalesApp.grapeapplication.manager.AppPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,15 @@ public class SelectTypeActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_select_type);
         init();
         checkAndRequestPermissions();
+        if (!AppPreferences.getString(this, "token").equals("0")) {
+            if (AppPreferences.getString(this, "type").equals("0")) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            } else if (AppPreferences.getString(this, "type").equals("1")) {
+                startActivity(new Intent(this, MainUserActivity.class));
+                finish();
+            }
+        }
     }
 
     public void init() {
@@ -46,6 +56,7 @@ public class SelectTypeActivity extends AppCompatActivity implements View.OnClic
         int id = view.getId();
         if (id == R.id.markerLayout) {
             Intent intent = new Intent(this, WelcomeActivity.class);
+            intent.putExtra("type", "0");
             startActivity(intent);
         } else if (id == R.id.userLayout) {
             Intent intent = new Intent(this, MainUserActivity.class);

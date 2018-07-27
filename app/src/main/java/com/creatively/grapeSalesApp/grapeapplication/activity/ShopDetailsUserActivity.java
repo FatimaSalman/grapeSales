@@ -1,6 +1,7 @@
 package com.creatively.grapeSalesApp.grapeapplication.activity;
 
 import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,7 +18,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.creatively.grapeSalesApp.grapeapplication.adapter.OfferAdapterDisplay;
@@ -48,9 +51,13 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
     private ConnectionManager connectionManager;
     private OfferAdapterDisplay shopAdapter;
     private ImageView progressbar;
-    private TextView noTxt;
+    private TextView noTxt, shopNameTxt, shopAddressTxt, mobileTxt;
     private EditText offerEditText;
     private RecyclerView recyclerView;
+    private String shop_id;
+    private RoundedImageView shopImage;
+    private RatingBar ratingStart;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +71,13 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_shop_details);
         connectionManager = new ConnectionManager(this);
         shop = (Shop) getIntent().getSerializableExtra("shop");
+        shop_id = getIntent().getStringExtra("shop_id");
         init();
     }
 
     public void init() {
+        ratingStart = findViewById(R.id.rating);
+        scrollView = findViewById(R.id.scrollView);
         progressbar = findViewById(R.id.waitProgress);
         offerEditText = findViewById(R.id.offerEditText);
         noTxt = findViewById(R.id.noTxt);
@@ -77,27 +87,33 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
         animation.setInterpolator(new AccelerateDecelerateInterpolator());
         animation.start();
 
-        RoundedImageView shopImage = findViewById(R.id.shopImage);
+        shopImage = findViewById(R.id.shopImage);
         progressBar = findViewById(R.id.progressBar);
-        TextView shopNameTxt = findViewById(R.id.shopNameTxt);
-        shopNameTxt.setText(shop.getName());
-        TextView shopAddressTxt = findViewById(R.id.shopAddressTxt);
-        TextView mobileTxt = findViewById(R.id.mobileTxt);
-        shopAddressTxt.setText(shop.getAddress());
-        mobileTxt.setText(shop.getShop_phone());
-        progressBar.setVisibility(View.VISIBLE);
-        Picasso.with(this).load(FontManager.IMAGE_URL + shop.getShopImage())
-                .into(shopImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressBar.setVisibility(View.GONE);
-                    }
+        shopNameTxt = findViewById(R.id.shopNameTxt);
+        shopAddressTxt = findViewById(R.id.shopAddressTxt);
+        mobileTxt = findViewById(R.id.mobileTxt);
+        if (shop != null) {
+            shopNameTxt.setText(shop.getName());
+            shopAddressTxt.setText(shop.getAddress());
+            mobileTxt.setText(shop.getShop_phone());
+            progressBar.setVisibility(View.VISIBLE);
+            ratingStart.setRating(Float.parseFloat(shop.getRating()));
+            Picasso.with(this).load(FontManager.IMAGE_URL + shop.getShopImage())
+                    .into(shopImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onError() {
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
+                        @Override
+                        public void onError() {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+        } else {
+            scrollView.setVisibility(View.GONE);
+            getShopDetails();
+        }
         RelativeLayout addLayout = findViewById(R.id.addLayout);
         addLayout.setVisibility(View.GONE);
         RelativeLayout backLayout = findViewById(R.id.backLayout);
@@ -158,7 +174,10 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
         progressbar.setVisibility(View.VISIBLE);
         noTxt.setVisibility(View.GONE);
         Offer offer = new Offer();
-        offer.setShop_id(shop.getId());
+        if (shop != null)
+            offer.setShop_id(shop.getId());
+        else
+            offer.setShop_id(shop_id);
         connectionManager.getOfferList(offer, new InstallCallback() {
             @Override
             public void onStatusDone(String status) {
@@ -216,7 +235,12 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
         progressbar.setVisibility(View.VISIBLE);
         noTxt.setVisibility(View.GONE);
         String offerName = offerEditText.getText().toString().trim();
-        connectionManager.getOfferStoreSearch(shop.getId(), offerName, new InstallCallback() {
+        String id;
+        if (shop != null)
+            id = shop.getId();
+        else
+            id = shop_id;
+        connectionManager.getOfferStoreSearch(id, offerName, new InstallCallback() {
             @Override
             public void onStatusDone(String status) {
 
@@ -273,5 +297,62 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
         if (requestCode == 12 && data != null) {
             getOfferList();
         }
+    }
+
+
+    public void getShopDetails() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.show();
+        connectionManager.getShopDetails(shop_id, new InstallCallback() {
+            @Override
+            public void onStatusDone(String result) {
+                try {
+                    scrollView.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
+                    JSONObject jsonObject = new JSONObject(result);
+//                    String id = jsonObject.getString("id");
+                    String shop_name = jsonObject.getString("shop_name");
+                    String shop_address = jsonObject.getString("shop_address");
+                    String shop_phone = jsonObject.getString("shop_phone");
+//                    String shop_bio = jsonObject.getString("shop_bio");
+//                    String user_id = jsonObject.getString("user_id");
+//                    String is_active = jsonObject.getString("is_active");
+                    String image_url = jsonObject.getString("image_url");
+//                    String category_name = jsonObject.getString("category_name");
+//                    String city_name = jsonObject.getString("city_name");
+//                    String count = jsonObject.getString("count");
+                    String rating = jsonObject.getString("rating");
+                    ratingStart.setRating(Float.parseFloat(rating));
+                    shopNameTxt.setText(shop_name);
+                    shopAddressTxt.setText(shop_address);
+                    mobileTxt.setText(shop_phone);
+                    progressBar.setVisibility(View.VISIBLE);
+                    Picasso.with(ShopDetailsUserActivity.this).load(FontManager.IMAGE_URL + image_url)
+                            .into(shopImage, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                progressDialog.dismiss();
+                AppErrorsManager.showErrorDialog(ShopDetailsUserActivity.this, error);
+            }
+        });
+
     }
 }

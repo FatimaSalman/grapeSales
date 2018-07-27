@@ -665,6 +665,76 @@ public class ConnectionManager implements ConnectionManagerInterface {
     }
 
     @Override
+    public void getShopDetails(final String shop_id, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "shop_details/" + shop_id).get().build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (final JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(e.getMessage());
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
     public void getShopList(final Shop shop, final InstallCallback callback) {
         InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
             @Override
@@ -1120,7 +1190,7 @@ public class ConnectionManager implements ConnectionManagerInterface {
     }
 
     @Override
-    public void applyOrder(final Order order, final InstallCallback callback) {
+    public void applyOrder(final Order order, final String token, final InstallCallback callback) {
 
         InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
             @Override
@@ -1141,7 +1211,8 @@ public class ConnectionManager implements ConnectionManagerInterface {
                             RequestBody requestBody = formBody.build();
                             final OkHttpClient client = new OkHttpClient();
                             okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
-                                    + "add_order").post(requestBody).build();
+                                    + "add_order").post(requestBody).header("Authorization",
+                                    "Bearer " + token).build();
                             final okhttp3.Response response;
                             try {
                                 response = client.newCall(request).execute();
@@ -1826,6 +1897,79 @@ public class ConnectionManager implements ConnectionManagerInterface {
     }
 
     @Override
+    public void allUserOrderList(final String token, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "listUserOrders").get()
+                                    .header("Authorization", "Bearer " + token).build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    JSONObject successJson = new JSONObject(success);
+                                                    String order = successJson.getString("order");
+                                                    callback.onStatusDone(order);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
     public void orderDetails(final String order_id, final InstallCallback callback) {
         InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
             @Override
@@ -1906,12 +2050,90 @@ public class ConnectionManager implements ConnectionManagerInterface {
                         public void run() {
                             MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                                     .addFormDataPart("offer_id", offer_id)
-                                    .addFormDataPart("rating", rating);
+                                    .addFormDataPart("rating_offer", rating);
 
                             RequestBody requestBody = formBody.build();
                             final OkHttpClient client = new OkHttpClient();
                             okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
                                     + "ratingOffers").post(requestBody).build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void ratingOfferShop(final String offer_id, final String rating_offer,
+                                final String shop_id, final String rating_shop, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("offer_id", offer_id)
+                                    .addFormDataPart("rating_offer", rating_offer)
+                                    .addFormDataPart("shop_id", shop_id)
+                                    .addFormDataPart("rating_shop", rating_shop);
+
+                            RequestBody requestBody = formBody.build();
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "ratingShopOffers").post(requestBody).build();
                             final okhttp3.Response response;
                             try {
                                 response = client.newCall(request).execute();
@@ -2122,6 +2344,451 @@ public class ConnectionManager implements ConnectionManagerInterface {
                             final OkHttpClient client = new OkHttpClient();
                             okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
                                     + "delete_offer/" + offer_id).delete().build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void acceptOrder(final String order_id, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("order_id", order_id);
+
+                            RequestBody requestBody = formBody.build();
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "accept_order").post(requestBody).build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void rejectOrder(final String order_id, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("order_id", order_id);
+
+                            RequestBody requestBody = formBody.build();
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "reject_order").post(requestBody).build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void cancleOrder(final String order_id, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("order_id", order_id);
+
+                            RequestBody requestBody = formBody.build();
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "cancle_order").post(requestBody).build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void processDoneOrder(final String order_id, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("order_id", order_id);
+
+                            RequestBody requestBody = formBody.build();
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "process_done_order").post(requestBody).build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void completedOrder(final String order_id, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("order_id", order_id);
+
+                            RequestBody requestBody = formBody.build();
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "complete_order").post(requestBody).build();
+                            final okhttp3.Response response;
+                            try {
+                                response = client.newCall(request).execute();
+                                String response_data = response.body().string();
+                                Log.e("aaa", response_data);
+                                if (response_data != null) {
+                                    final JSONObject jsonObject = new JSONObject(response_data);
+                                    if (jsonObject.has("success")) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    String success = jsonObject.getString("success");
+                                                    callback.onStatusDone(success);
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                                        }
+                                    });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError(mContext.getString(R.string.no_internet_connection));
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void deliveryType(final String order_id, final String type, final InstallCallback callback) {
+        InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
+            @Override
+            public void onInternetAvailable(boolean isAvailable) {
+                if (isAvailable) {
+                    mExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("order_id", order_id)
+                                    .addFormDataPart("delivery_type", type);
+
+                            RequestBody requestBody = formBody.build();
+                            final OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    + "delivery_type").post(requestBody).build();
                             final okhttp3.Response response;
                             try {
                                 response = client.newCall(request).execute();

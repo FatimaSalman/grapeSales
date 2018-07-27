@@ -208,6 +208,32 @@ public class AppErrorsManager {
             }
         }
     }
+
+    public static void showSuccessDialog(Activity context, String title,String error,
+                                         DialogInterface.OnClickListener okClickListener) {
+        if (context != null && !context.isFinishing()) {
+            AlertDialog alertDialogBuilder = new AlertDialog.Builder(context)
+                    .setTitle(context.getString(R.string.info))
+                    .setTitle(title)
+                    .setMessage(error)
+                    .setPositiveButton(context.getString(R.string.ok), okClickListener)
+                    .show();
+
+            TextView textView = alertDialogBuilder.findViewById(android.R.id.message);
+            TextView alertTitle = alertDialogBuilder.findViewById(R.id.alertTitle);
+            Button button1 = alertDialogBuilder.findViewById(android.R.id.button1);
+            Button button2 = alertDialogBuilder.findViewById(android.R.id.button2);
+            if (textView != null) {
+                textView.setLineSpacing(0, 1.5f);
+            }
+            if (Locale.getDefault().getLanguage().equals("ar")) {
+                FontManager.applyFont(context, textView);
+                FontManager.applyFont(context, alertTitle);
+                FontManager.applyFont(context, button1);
+                FontManager.applyFont(context, button2);
+            }
+        }
+    }
 }
 
 //    public static void deleteSuccessDialog(Activity context, String error, DialogInterface.OnClickListener okClickListener, DialogInterface.OnClickListener cancelClickListener) {

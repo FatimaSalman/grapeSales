@@ -10,28 +10,23 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.creatively.grapeSalesApp.grapeapplication.R;
 import com.creatively.grapeSalesApp.grapeapplication.activity.OrderDetailsActivity;
-import com.creatively.grapeSalesApp.grapeapplication.activity.ShopDetailsActivity;
+import com.creatively.grapeSalesApp.grapeapplication.activity.OrderUserDetailsActivity;
 import com.creatively.grapeSalesApp.grapeapplication.adapter.OrderAdapter;
-import com.creatively.grapeSalesApp.grapeapplication.adapter.ShopAdapter;
 import com.creatively.grapeSalesApp.grapeapplication.callback.InstallCallback;
 import com.creatively.grapeSalesApp.grapeapplication.callback.OnItemClickListener;
 import com.creatively.grapeSalesApp.grapeapplication.manager.AppErrorsManager;
 import com.creatively.grapeSalesApp.grapeapplication.manager.AppPreferences;
 import com.creatively.grapeSalesApp.grapeapplication.manager.ConnectionManager;
 import com.creatively.grapeSalesApp.grapeapplication.model.Order;
-import com.creatively.grapeSalesApp.grapeapplication.model.Shop;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersFragment extends Fragment {
+public class OrdersUserFragment extends Fragment {
 
     private String token;
     private ConnectionManager connectionManager;
@@ -79,7 +74,7 @@ public class OrdersFragment extends Fragment {
         orderAdapter = new OrderAdapter(getActivity(), orderList, new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), OrderDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), OrderUserDetailsActivity.class);
                 intent.putExtra("order_id", orderList.get(position).getId());
                 startActivity(intent);
             }
@@ -104,7 +99,7 @@ public class OrdersFragment extends Fragment {
         orderList.clear();
         progressbar.setVisibility(View.VISIBLE);
         noTxt.setVisibility(View.GONE);
-        connectionManager.allOrderList(token, new InstallCallback() {
+        connectionManager.allUserOrderList(token, new InstallCallback() {
             @Override
             public void onStatusDone(String result) {
                 if (result.equals("[]")) {

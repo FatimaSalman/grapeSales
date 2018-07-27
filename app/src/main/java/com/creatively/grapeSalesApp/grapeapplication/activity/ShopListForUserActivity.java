@@ -183,7 +183,9 @@ public class ShopListForUserActivity extends AppCompatActivity implements View.O
                             String category_name = jsonObject.getString("category_name");
                             String city_name = jsonObject.getString("city_name");
                             String count = jsonObject.getString("count");
-                            Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url, shop_phone);
+                            String rating = jsonObject.getString("rating");
+                            Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url,
+                                    shop_phone, rating);
                             shopList.add(shop1);
                             progressbar.setVisibility(View.GONE);
                             noTxt.setVisibility(View.GONE);
@@ -237,7 +239,9 @@ public class ShopListForUserActivity extends AppCompatActivity implements View.O
                             String category_name = jsonObject.getString("category_name");
                             String city_name = jsonObject.getString("city_name");
                             String count = jsonObject.getString("count");
-                            Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url, shop_phone);
+                            String rating = jsonObject.getString("rating");
+                            Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url,
+                                    shop_phone, rating);
                             shopList.add(shop1);
                             recyclerView.setVisibility(View.VISIBLE);
                             progressbar.setVisibility(View.GONE);

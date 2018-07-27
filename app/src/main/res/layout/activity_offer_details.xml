@@ -272,6 +272,32 @@
                 android:text="@string/back"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark" />
+
+            <RelativeLayout
+                android:id="@+id/morelayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/backBtn"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/moreDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:text="@string/for_details"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/moreDetails"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:text="@string/press_here"
+                    android:textColor="@color/colorRed" />
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

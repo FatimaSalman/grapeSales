@@ -2,17 +2,34 @@ package com.creatively.grapeSalesApp.grapeapplication.model;
 
 public class Order {
     private String id, shop_id, offer_id, userName, mobile, address, note, user_id, shop_name,
-            offer_name, image, created_at;
+            offer_name, image, created_at, buyer_id, status;
 
-    public Order(String id, String shop_name, String offer_name, String image, String created_at) {
+    public Order(String id, String shop_name, String offer_name, String image, String created_at, String status) {
         this.id = id;
         this.shop_name = shop_name;
         this.offer_name = offer_name;
         this.image = image;
         this.created_at = created_at;
+        this.status = status;
     }
 
     public Order() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getBuyer_id() {
+        return buyer_id;
+    }
+
+    public void setBuyer_id(String buyer_id) {
+        this.buyer_id = buyer_id;
     }
 
     public String getShop_name() {

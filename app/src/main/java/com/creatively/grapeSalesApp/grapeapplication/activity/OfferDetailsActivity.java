@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.creatively.grapeSalesApp.grapeapplication.manager.AppPreferences;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -84,7 +85,9 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
     public void init() {
 
         RelativeLayout backLayout = findViewById(R.id.backLayout);
+        RelativeLayout morelayout = findViewById(R.id.morelayout);
         RelativeLayout starLayout = findViewById(R.id.starLayout);
+        starLayout.setVisibility(View.GONE);
         rating = findViewById(R.id.rating);
         scrollView = findViewById(R.id.scrollView);
         scrollView.setVisibility(View.GONE);
@@ -94,6 +97,7 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
         Button orderBtn = findViewById(R.id.orderBtn);
         orderBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        morelayout.setOnClickListener(this);
 
 //        shopImage = findViewById(R.id.shopImage);
 //        progressBar = findViewById(R.id.progressBar);
@@ -119,7 +123,7 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
                     final TextSliderView textSliderView = new TextSliderView(OfferDetailsActivity.this);
                     textSliderView
                             .image(FontManager.IMAGE_URL + imageArray)
-                            .setScaleType(BaseSliderView.ScaleType.Fit)
+                            .setScaleType(BaseSliderView.ScaleType.FitCenterCrop)
                             .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                                 @Override
                                 public void onSliderClick(BaseSliderView slider) {
@@ -162,14 +166,26 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
         if (id == R.id.backLayout || id == R.id.backBtn) {
             finish();
         } else if (id == R.id.orderBtn) {
-            Log.e("id", offer_id + " // " + shop_id + " // " + user_id);
-            Intent intent = new Intent(this, UserApplyFragment.class);
-            intent.putExtra("offer_id", offer_id);
-            intent.putExtra("shop_id", shop_id);
-            intent.putExtra("user_id", user_id);
-            startActivity(intent);
+            if (AppPreferences.getString(this, "token").equals("0")) {
+                Intent intent = new Intent(this, WelcomeActivity.class);
+                intent.putExtra("type", "1");
+                intent.putExtra("offer_id", offer_id);
+                intent.putExtra("shop_id", shop_id);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, UserApplyFragment.class);
+                intent.putExtra("offer_id", offer_id);
+                intent.putExtra("shop_id", shop_id);
+                intent.putExtra("user_id", user_id);
+                startActivity(intent);
+            }
         } else if (id == R.id.starLayout) {
             openDialogRating();
+        }else if (id == R.id.morelayout) {
+            Intent intent= new Intent(OfferDetailsActivity.this, ShopDetailsUserActivity.class);
+            intent.putExtra("shop_id", shop_id);
+            startActivity(intent);
         }
     }
 
@@ -243,7 +259,11 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
         final AlertDialog deleteDialog = new AlertDialog.Builder(this).create();
         deleteDialog.setView(dialogView);
 
-        RatingBar rating = dialogView.findViewById(R.id.rating);
+        RatingBar rating = dialogView.findViewById(R.id.ratingOffer);
+        RatingBar ratingShop = dialogView.findViewById(R.id.ratingShop);
+        ratingShop.setVisibility(View.GONE);
+        TextView ratingShopTxt = dialogView.findViewById(R.id.ratingShopTxt);
+        ratingShopTxt.setVisibility(View.GONE);
         rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {

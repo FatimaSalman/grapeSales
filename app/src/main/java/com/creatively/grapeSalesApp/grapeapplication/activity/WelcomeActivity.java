@@ -3,16 +3,13 @@ package com.creatively.grapeSalesApp.grapeapplication.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,11 +19,10 @@ import com.creatively.grapeSalesApp.grapeapplication.fragment.RegisterFragment;
 import com.creatively.grapeSalesApp.grapeapplication.manager.AppPreferences;
 import com.creatively.grapeSalesApp.grapeapplication.manager.FontManager;
 
-import java.util.Objects;
-
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
     private RelativeLayout loginLayout, registerLayout;
     private TextView registerTxt, loginTxt;
+    private String type, offer_id, shop_id, user_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,11 +32,17 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         if (!AppPreferences.getString(this, "token").equals("0")) {
             startActivity(new Intent(this, MainActivity.class));
         }
+
+        type = getIntent().getStringExtra("type");
+
+        offer_id = getIntent().getStringExtra("offer_id");
+        shop_id = getIntent().getStringExtra("shop_id");
+        user_id = getIntent().getStringExtra("user_id");
+
     }
 
 
     public void init() {
-
         RelativeLayout backLayout = findViewById(R.id.backLayout);
         backLayout.setOnClickListener(this);
         loginLayout = findViewById(R.id.loginLayout);
@@ -63,19 +65,25 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             loginTxt.setTypeface(FontManager.getTypefaceTextInputRegular(this));
             registerTxt.setTypeface(FontManager.getTypefaceTextInputBold(this));
             registerLayout.setBackground(getResources().getDrawable(R.drawable.bg_item_tab));
-            replaceFragment(new RegisterFragment());
+            replaceFragment(new RegisterFragment(), type, offer_id, user_id, shop_id);
         } else if (id == R.id.loginLayout) {
             registerLayout.setBackground(null);
             registerTxt.setTypeface(FontManager.getTypefaceTextInputRegular(this));
             loginTxt.setTypeface(FontManager.getTypefaceTextInputBold(this));
             loginLayout.setBackground(getResources().getDrawable(R.drawable.bg_item_tab));
-            replaceFragment(new LoginFragment());
+            replaceFragment(new LoginFragment(), type, offer_id, user_id, shop_id);
         }
     }
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment, String data, String offer_id, String user_id, String shop_id) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         assert fragmentManager != null;
+        Bundle arguments = new Bundle();
+        arguments.putString("type", data);
+        arguments.putString("user_id", user_id);
+        arguments.putString("offer_id", offer_id);
+        arguments.putString("shop_id", shop_id);
+        fragment.setArguments(arguments);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentReplace, fragment, fragment.toString());
         fragmentTransaction.addToBackStack(fragment.toString());
@@ -87,6 +95,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         registerTxt.setTypeface(FontManager.getTypefaceTextInputRegular(this));
         loginTxt.setTypeface(FontManager.getTypefaceTextInputBold(this));
         loginLayout.setBackground(getResources().getDrawable(R.drawable.bg_item_tab));
-        replaceFragment(new LoginFragment());
+//        Log.e("offer_id",offer_id);
+//        Log.e("shop_id",shop_id);
+//        Log.e("user_id",user_id);
+        replaceFragment(new LoginFragment(), type, offer_id, user_id, shop_id);
     }
 }

@@ -43,6 +43,8 @@ public class CategoriesUserFragment extends Fragment implements View.OnClickList
         RelativeLayout sportLayout = view.findViewById(R.id.sportLayout);
         RelativeLayout furLayout = view.findViewById(R.id.furLayout);
         RelativeLayout resturanceLayout = view.findViewById(R.id.resturanceLayout);
+        TextView select = view.findViewById(R.id.select);
+        select.setText(getString(R.string.select_category));
         layout = view.findViewById(R.id.layout);
         clothLayout.setOnClickListener(this);
         shopsLayout.setOnClickListener(this);
