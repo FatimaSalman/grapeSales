@@ -120,4 +120,5 @@
     <string name="delivery_type">ألية التوصيل</string>
     <string name="for_details">لمعرفة تفاصيل المعرض</string>
     <string name="press_here">اضغط هنا</string>
+    <string name="seen_no">عدد المشاهدات</string>
 </resources>

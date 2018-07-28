@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -22,16 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.creatively.grapeSalesApp.grapeapplication.R;
-import com.creatively.grapeSalesApp.grapeapplication.adapter.OfferListAdapter;
-import com.creatively.grapeSalesApp.grapeapplication.adapter.ShopAdapter;
 import com.creatively.grapeSalesApp.grapeapplication.adapter.ShopAdapterUser;
 import com.creatively.grapeSalesApp.grapeapplication.callback.InstallCallback;
 import com.creatively.grapeSalesApp.grapeapplication.callback.OnItemClickListener;
 import com.creatively.grapeSalesApp.grapeapplication.manager.AppErrorsManager;
-import com.creatively.grapeSalesApp.grapeapplication.manager.AppPreferences;
 import com.creatively.grapeSalesApp.grapeapplication.manager.ConnectionManager;
 import com.creatively.grapeSalesApp.grapeapplication.manager.FontManager;
-import com.creatively.grapeSalesApp.grapeapplication.model.Offer;
 import com.creatively.grapeSalesApp.grapeapplication.model.Shop;
 
 import org.json.JSONArray;
@@ -49,7 +43,6 @@ public class ShopListForUserActivity extends AppCompatActivity implements View.O
     private ShopAdapterUser shopAdapter;
     private ImageView progressbar;
     private TextView noTxt;
-    private String is_active;
     private EditText exhibtionEditText;
     private RecyclerView recyclerView;
 
@@ -112,7 +105,7 @@ public class ShopListForUserActivity extends AppCompatActivity implements View.O
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(ShopListForUserActivity.this, ShopDetailsUserActivity.class);
-                intent.putExtra("shop", shopList.get(position));
+                intent.putExtra("shop_id", shopList.get(position).getId());
                 startActivity(intent);
             }
         });
@@ -184,8 +177,9 @@ public class ShopListForUserActivity extends AppCompatActivity implements View.O
                             String city_name = jsonObject.getString("city_name");
                             String count = jsonObject.getString("count");
                             String rating = jsonObject.getString("rating");
+                            String seen = jsonObject.getString("seen_no");
                             Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url,
-                                    shop_phone, rating);
+                                    shop_phone, rating, seen);
                             shopList.add(shop1);
                             progressbar.setVisibility(View.GONE);
                             noTxt.setVisibility(View.GONE);
@@ -240,8 +234,9 @@ public class ShopListForUserActivity extends AppCompatActivity implements View.O
                             String city_name = jsonObject.getString("city_name");
                             String count = jsonObject.getString("count");
                             String rating = jsonObject.getString("rating");
+                            String seen = jsonObject.getString("seen_no");
                             Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url,
-                                    shop_phone, rating);
+                                    shop_phone, rating, seen);
                             shopList.add(shop1);
                             recyclerView.setVisibility(View.VISIBLE);
                             progressbar.setVisibility(View.GONE);

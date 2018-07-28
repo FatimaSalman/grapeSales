@@ -31,7 +31,7 @@ public class ShopSearchAdapter extends RecyclerView.Adapter<ShopSearchAdapter.My
     private OnItemClickListener listener;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView offerQuanityTxt, addressTxt, shopNameTxt;
+        TextView offerQuanityTxt, addressTxt, shopNameTxt, seenTxt;
         ProgressBar progressBar;
         RoundedImageView shopImage;
         RelativeLayout layout;
@@ -52,6 +52,7 @@ public class ShopSearchAdapter extends RecyclerView.Adapter<ShopSearchAdapter.My
             ic_edit = view.findViewById(R.id.ic_edit);
             ic_edit.setVisibility(View.GONE);
             rating = view.findViewById(R.id.rating);
+            seenTxt = view.findViewById(R.id.seenTxt);
         }
     }
 
@@ -79,6 +80,7 @@ public class ShopSearchAdapter extends RecyclerView.Adapter<ShopSearchAdapter.My
         holder.addressTxt.setText(item.getAddress());
         holder.rating.setRating(Float.parseFloat(item.getRating()));
         holder.offerQuanityTxt.setText(item.getOfferCount());
+        holder.seenTxt.setText(item.getSeen());
         holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(context).load(FontManager.IMAGE_URL + item.getShopImage())
                 .into(holder.shopImage, new Callback() {

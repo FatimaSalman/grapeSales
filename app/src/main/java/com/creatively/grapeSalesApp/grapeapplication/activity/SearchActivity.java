@@ -258,8 +258,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             String city_name = jsonObject.getString("city_name");
                             String count = jsonObject.getString("count");
                             String rating = jsonObject.getString("rating");
+                            String seen = jsonObject.getString("seen_no");
                             Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url,
-                                    shop_phone, rating);
+                                    shop_phone, rating, seen);
                             shopList.add(shop1);
                             recyclerView.setVisibility(View.VISIBLE);
                             waitProgress.setVisibility(View.GONE);

@@ -5,11 +5,11 @@ import java.io.Serializable;
 
 public class Shop implements Serializable {
     private String id, name, address, offerCount, shopImage, user_id, shop_phone, shop_bio,
-            is_active, category_name, city_name, record_no, rating;
+            is_active, category_name, city_name, record_no, rating, seen;
     private File imageFile;
 
     public Shop(String id, String name, String address, String offerCount, String shopImage,
-                String shop_phone, String rating) {
+                String shop_phone, String rating, String seen) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -17,10 +17,11 @@ public class Shop implements Serializable {
         this.shopImage = shopImage;
         this.shop_phone = shop_phone;
         this.rating = rating;
+        this.seen = seen;
     }
 
     public Shop(String id, String name, String address, String offerCount, String shopImage,
-                String shop_phone, String shop_bio, String record_no, String rating) {
+                String shop_phone, String shop_bio, String record_no, String rating,String seen) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -30,6 +31,15 @@ public class Shop implements Serializable {
         this.shop_bio = shop_bio;
         this.record_no = record_no;
         this.rating = rating;
+        this.seen = seen;
+    }
+
+    public String getSeen() {
+        return seen;
+    }
+
+    public void setSeen(String seen) {
+        this.seen = seen;
     }
 
     public String getRating() {

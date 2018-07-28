@@ -10,9 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -56,7 +54,6 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
     private TextView noTxt;
     private RecyclerView recyclerView;
     private EditText offerEditText;
-    private RatingBar ratingStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +71,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void init() {
-        ratingStart = findViewById(R.id.rating);
+        RatingBar ratingStart = findViewById(R.id.rating);
         offerEditText = findViewById(R.id.offerEditText);
         offerEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
