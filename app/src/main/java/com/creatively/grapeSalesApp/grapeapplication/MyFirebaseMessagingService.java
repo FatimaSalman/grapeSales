@@ -11,6 +11,7 @@ import com.creatively.grapeSalesApp.grapeapplication.activity.MainActivity;
 import com.creatively.grapeSalesApp.grapeapplication.activity.OfferDetailsActivity;
 import com.creatively.grapeSalesApp.grapeapplication.activity.OrderDetailsActivity;
 import com.creatively.grapeSalesApp.grapeapplication.activity.OrderUserDetailsActivity;
+import com.creatively.grapeSalesApp.grapeapplication.activity.SplashScreen;
 import com.creatively.grapeSalesApp.grapeapplication.manager.AppPreferences;
 import com.creatively.grapeSalesApp.grapeapplication.manager.Config;
 import com.creatively.grapeSalesApp.grapeapplication.manager.NotificationUtils;
@@ -97,7 +98,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String status = data.getString("status");
                     String id = data.getString("id");
                     Log.e("status", status);
-                    if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")|| TextUtils.equals(status, "5")) {
+                    if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3") || TextUtils.equals(status, "5")) {
                         if (NotificationUtils.isAppIsInBackground(getApplicationContext())) {
                             // app is in foreground, broadcast the push message
                             Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
@@ -109,7 +110,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             notificationUtils.playNotificationSound();
                             // check for image attachment
                             Intent resultIntent = new Intent(getApplicationContext(), OrderUserDetailsActivity.class);
-                            if (TextUtils.equals(status, "5")){
+                            if (TextUtils.equals(status, "5")) {
                                 resultIntent.putExtra("rating", "rating");
                             }
                             resultIntent.putExtra("order_id", id);
@@ -119,7 +120,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             // app is in background, show the notification in notification tray
                             Intent resultIntent = new Intent(getApplicationContext(), OrderUserDetailsActivity.class);
                             resultIntent.putExtra("order_id", id);
-                            if (TextUtils.equals(status, "5")){
+                            if (TextUtils.equals(status, "5")) {
                                 resultIntent.putExtra("rating", "rating");
                             }
                             // check for image attachment
@@ -251,7 +252,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     // check for image attachment
                     showNotificationMessage(getApplicationContext(), title, message, date, resultIntent);
                 }
+            } else if (data.has("update")) {
+                if (NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+                    // app is in foreground, broadcast the push message
+                    Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+                    pushNotification.putExtra("message", message);
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+
+                    // play notification sound
+                    NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+                    notificationUtils.playNotificationSound();
+                    // check for image attachment
+                    Intent resultIntent = new Intent(getApplicationContext(), SplashScreen.class);
+                    resultIntent.putExtra("update", "update");
+                    showNotificationMessage(getApplicationContext(), title, message, date, resultIntent);
+
+                } else {
+                    // app is in background, show the notification in notification tray
+                    Intent resultIntent = new Intent(getApplicationContext(), SplashScreen.class);
+                    resultIntent.putExtra("update", "update");
+                    // check for image attachment
+                    showNotificationMessage(getApplicationContext(), title, message, date, resultIntent);
+                }
             } else {
+
                 if (data.has("is_active")) {
                     AppPreferences.saveString(this, "active", data.getString("is_active"));
                 }

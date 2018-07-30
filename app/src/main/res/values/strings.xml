@@ -121,4 +121,7 @@
     <string name="for_details">لمعرفة تفاصيل المعرض</string>
     <string name="press_here">اضغط هنا</string>
     <string name="seen_no">عدد المشاهدات</string>
+    <string name="update_version">تحديث</string>
+    <string name="update_new_version">قم بتحديث النسخة من جوجل استور لتتمتع بالمميزات</string>
+    <string name="update_now">حدث الآن</string>
 </resources>

@@ -214,7 +214,7 @@ public class ShopsFragment extends Fragment implements View.OnClickListener {
                             String city_name = jsonObject.getString("city_name");
                             String count = jsonObject.getString("count");
                             String rating = jsonObject.getString("rating");
-                            String seenTxt = jsonObject.getString("seenTxt");
+                            String seenTxt = jsonObject.getString("seen_no");
                             Shop shop1 = new Shop(id, shop_name, shop_address, count, image_url,
                                     shop_phone, shop_bio, record_no, rating, seenTxt);
                             shopList.add(shop1);
