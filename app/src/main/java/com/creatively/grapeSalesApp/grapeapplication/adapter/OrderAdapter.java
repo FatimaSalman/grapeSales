@@ -83,14 +83,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             holder.statusTxt.setText("اكتمال الطلب");
         }
         holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.with(context).load(FontManager.IMAGE_URL + item.getImage()).into(holder.offerImage, new Callback() {
+        Picasso.get().load(FontManager.IMAGE_URL + item.getImage()).into(holder.offerImage, new Callback() {
             @Override
             public void onSuccess() {
                 holder.progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError() {
+            public void onError(Exception e) {
                 holder.progressBar.setVisibility(View.GONE);
             }
         });

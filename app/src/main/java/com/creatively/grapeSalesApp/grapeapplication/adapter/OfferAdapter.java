@@ -82,14 +82,14 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         holder.rating.setRating(Float.parseFloat(item.getRating()));
         Log.e("images", FontManager.IMAGE_URL + item.getOfferImage());
         holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.with(context).load(FontManager.IMAGE_URL + item.getOfferImage()).into(holder.offerImage, new Callback() {
+        Picasso.get().load(FontManager.IMAGE_URL + item.getOfferImage()).into(holder.offerImage, new Callback() {
             @Override
             public void onSuccess() {
                 holder.progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError() {
+            public void onError(Exception e) {
                 holder.progressBar.setVisibility(View.GONE);
             }
         });

@@ -72,7 +72,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
                 bioEditText.setText(shop1.getShop_bio());
                 if (!TextUtils.equals(shop1.getRecord_no(), "null"))
                     recordEditText.setText(shop1.getRecord_no());
-                Picasso.with(this).load(FontManager.IMAGE_URL + shop1.getShopImage()).into(shopImage);
+                Picasso.get().load(FontManager.IMAGE_URL + shop1.getShopImage()).into(shopImage);
                 ic_camera.setVisibility(View.GONE);
                 registerBtn.setText(getString(R.string.update));
             }
@@ -250,7 +250,7 @@ public class AddShopActivity extends AppCompatActivity implements View.OnClickLi
         Log.e("pdfPathHolder", pdfPathHolder + "");
         assert pdfPathHolder != null;
         fileSchema = new File(pdfPathHolder);
-        Picasso.with(this).load(uri).into(shopImage);
+        Picasso.get().load(uri).into(shopImage);
         ic_camera.setVisibility(View.GONE);
 
     }

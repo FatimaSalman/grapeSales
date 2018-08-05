@@ -82,7 +82,7 @@ public class ShopAdapterUser extends RecyclerView.Adapter<ShopAdapterUser.MyView
         holder.seenTxt.setText(item.getSeen());
         holder.rating.setRating(Float.parseFloat(item.getRating()));
         holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.with(context).load(FontManager.IMAGE_URL + item.getShopImage())
+        Picasso.get().load(FontManager.IMAGE_URL + item.getShopImage())
                 .into(holder.shopImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -90,7 +90,7 @@ public class ShopAdapterUser extends RecyclerView.Adapter<ShopAdapterUser.MyView
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(Exception e) {
                         holder.progressBar.setVisibility(View.GONE);
                     }
                 });

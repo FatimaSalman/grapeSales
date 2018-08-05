@@ -189,7 +189,7 @@ public class AddOfferActivity extends AppCompatActivity implements View.OnClickL
         Log.e("pdfPathHolder", pdfPathHolder + "");
         assert pdfPathHolder != null;
         fileSchema = new File(pdfPathHolder);
-//        Picasso.with(this).load(uri).into(shopImage);
+//        Picasso.get().load(uri).into(shopImage);
         ic_camera.setVisibility(View.GONE);
 
     }

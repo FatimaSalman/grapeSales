@@ -194,7 +194,7 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
         Log.e("pdfPathHolder", pdfPathHolder + "");
         assert pdfPathHolder != null;
         fileSchema = new File(pdfPathHolder);
-//        Picasso.with(this).load(uri).into(shopImage);
+//        Picasso.get().load(uri).into(shopImage);
 //        ic_camera.setVisibility(View.GONE);
         Images image = new Images(uri, fileSchema);
         imageList.add(image);
@@ -237,7 +237,7 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                Picasso.with(updateOfferActivity.this)
+//                Picasso.get()
 //                        .load(FontManager.IMAGE_URL + offer1.getOfferImage()).into(shopImage);
 //                ic_camera.setVisibility(View.GONE);
             }

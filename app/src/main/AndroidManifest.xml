@@ -109,6 +109,9 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="138d8dd69b1c578b63f53059dd650159a928ef64" />
     </application>
 
 </manifest>

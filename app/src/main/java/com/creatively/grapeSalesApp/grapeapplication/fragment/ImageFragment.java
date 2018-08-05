@@ -82,13 +82,13 @@ public class ImageFragment extends Fragment {
         imageLoader.displayImage(FontManager.IMAGE_URL + mParam1, img);
         //    Toast.makeText(getActivity(), mParam1 + " : ///", Toast.LENGTH_LONG).show();
 
-//        Picasso.with(getActivity()).load(Uri.parse(mParam1)).memoryPolicy(MemoryPolicy.NO_CACHE).
+//        Picasso.get().load(Uri.parse(mParam1)).memoryPolicy(MemoryPolicy.NO_CACHE).
 //                networkPolicy(NetworkPolicy.NO_CACHE).fit().into(img, new Callback() {
 //            @Override
 //            public void onSuccess() {
 //            }
 //            @Override
-//            public void onError() {
+//            public void onError(Exception e) {
 //                Toast.makeText(getActivity(),"dd"+mParam1, Toast.LENGTH_LONG).show();
 //            }
 //        });

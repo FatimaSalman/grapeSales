@@ -61,7 +61,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
 
         if (item.getImages() != null)
             if (!item.getImages().isEmpty()) {
-                Picasso.with(context).load(FontManager.IMAGE_URL + item.getImages())
+                Picasso.get().load(FontManager.IMAGE_URL + item.getImages())
                         .into(holder.userImage, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -69,14 +69,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                             }
 
                             @Override
-                            public void onError() {
+                            public void onError(Exception e) {
                                 holder.progressbar.setVisibility(View.GONE);
                             }
                         });
             }
 
         if (item.getUri() != null)
-            Picasso.with(context).load(item.getUri())
+            Picasso.get().load(item.getUri())
                     .into(holder.userImage, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -84,7 +84,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
                         }
 
                         @Override
-                        public void onError() {
+                        public void onError(Exception e) {
                             holder.progressbar.setVisibility(View.GONE);
                         }
                     });
