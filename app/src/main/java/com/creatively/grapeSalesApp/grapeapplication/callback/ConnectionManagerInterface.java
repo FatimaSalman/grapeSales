@@ -9,7 +9,7 @@ public interface ConnectionManagerInterface {
 
     void login(User user, LoginCallback callback);
 
-    void register(User user, RegisterCallback callback);
+    void register(User user, String code, RegisterCallback callback);
 
     void getDetails(final String token, final RegisterCallback callback);
 

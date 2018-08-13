@@ -59,7 +59,8 @@ public class SelectTypeActivity extends AppCompatActivity implements View.OnClic
             intent.putExtra("type", "0");
             startActivity(intent);
         } else if (id == R.id.userLayout) {
-            Intent intent = new Intent(this, MainUserActivity.class);
+            Intent intent = new Intent(this, WelcomeActivity.class);
+            intent.putExtra("type", "1");
             startActivity(intent);
         }
     }

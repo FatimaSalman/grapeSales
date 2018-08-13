@@ -40,10 +40,12 @@ import java.util.Objects;
 public class RegisterFragment extends Fragment implements View.OnClickListener {
 
 
-    private EditText fullNameEditText, mobileEditText, passwordEditText, confirmPasswordEditText;
+    private EditText fullNameEditText, mobileEditText, passwordEditText, confirmPasswordEditText,
+            codeEditText;
     private ConnectionManager connectionManager;
     private String type, offer_id, shop_id, user_id;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,11 +54,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         connectionManager = new ConnectionManager(getActivity());
         init(view);
         Bundle arguments = getArguments();
-        assert arguments != null;
-        type = arguments.getString("type");
-        offer_id = arguments.getString("offer_id");
-        shop_id = arguments.getString("shop_id");
-        user_id = arguments.getString("user_id");
+        if (arguments != null) {
+            type = arguments.getString("type");
+            Log.e("type", type);
+            offer_id = arguments.getString("offer_id");
+            shop_id = arguments.getString("shop_id");
+            user_id = arguments.getString("user_id");
+        }
+        type = Objects.requireNonNull(getActivity()).getIntent().getStringExtra("type");
+        Log.e("type", type);
         return view;
     }
 
@@ -64,6 +70,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         fullNameEditText = view.findViewById(R.id.fullNameEditText);
         mobileEditText = view.findViewById(R.id.mobileEditText);
         passwordEditText = view.findViewById(R.id.passwordEditText);
+        codeEditText = view.findViewById(R.id.codeEditText);
         confirmPasswordEditText = view.findViewById(R.id.confirmPasswordEditText);
         Button registerBtn = view.findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(this);
@@ -74,6 +81,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         final String mobile = mobileEditText.getText().toString().trim();
         final String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
+        String code = codeEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(username)) {
             fullNameEditText.setError(getString(R.string.required_field));
@@ -101,7 +109,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             user.setType(type);
             user.setFcm_token(FirebaseInstanceId.getInstance().getToken());
 
-            connectionManager.register(user, new RegisterCallback() {
+            connectionManager.register(user, code, new RegisterCallback() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void onUserRegisterDone(User user) {
@@ -115,12 +123,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                         startActivity(intent);
                         Objects.requireNonNull(getActivity()).finish();
                     } else if (user.getType().equals("1")) {
-                        Intent intent = new Intent(getActivity(), UserApplyFragment.class);
-                        intent.putExtra("offer_id", offer_id);
-                        intent.putExtra("shop_id", shop_id);
-                        intent.putExtra("user_id", user_id);
-                        startActivity(intent);
-                        Objects.requireNonNull(getActivity()).finish();
+                        if (offer_id != null && shop_id != null && user_id != null) {
+                            Intent intent = new Intent(getActivity(), UserApplyFragment.class);
+                            intent.putExtra("offer_id", offer_id);
+                            intent.putExtra("shop_id", shop_id);
+                            intent.putExtra("user_id", user_id);
+                            startActivity(intent);
+                            Objects.requireNonNull(getActivity()).finish();
+                        } else {
+                            Intent intent = new Intent(getActivity(), MainUserActivity.class);
+                            startActivity(intent);
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
                     }
                 }
 

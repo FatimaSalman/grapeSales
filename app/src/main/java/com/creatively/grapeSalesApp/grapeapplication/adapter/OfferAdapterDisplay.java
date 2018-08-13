@@ -33,17 +33,19 @@ public class OfferAdapterDisplay extends RecyclerView.Adapter<OfferAdapterDispla
     private OnItemClickListener listener;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView offerNameTxt, addressTxt, offerNextPrice, offerPreviousPrice;
+        TextView offerNameTxt, addressTxt, offerNextPrice, offerPreviousPrice, storeTxt, seenTxt;
         ProgressBar progressBar;
         RoundedImageView offerImage;
         RatingBar rating;
         Button deleteOffer;
-        RelativeLayout layout;
+        RelativeLayout layout, seenLayout, storeLayout;
 
         MyViewHolder(View view) {
             super(view);
             offerNameTxt = view.findViewById(R.id.offerNameTxt);
             rating = view.findViewById(R.id.rating);
+            seenTxt = view.findViewById(R.id.seenTxt);
+            storeTxt = view.findViewById(R.id.storeTxt);
             addressTxt = view.findViewById(R.id.addressTxt);
             offerNextPrice = view.findViewById(R.id.offerNextPrice);
             offerPreviousPrice = view.findViewById(R.id.offerPreviousPrice);
@@ -53,6 +55,11 @@ public class OfferAdapterDisplay extends RecyclerView.Adapter<OfferAdapterDispla
             deleteOffer = view.findViewById(R.id.deleteOffer);
             deleteOffer.setVisibility(View.GONE);
             layout = view.findViewById(R.id.layout);
+            seenLayout = view.findViewById(R.id.seenLayout);
+            seenLayout.setVisibility(View.GONE);
+            storeLayout = view.findViewById(R.id.storeLayout);
+            storeLayout.setVisibility(View.GONE);
+
         }
     }
 
@@ -80,16 +87,18 @@ public class OfferAdapterDisplay extends RecyclerView.Adapter<OfferAdapterDispla
         holder.offerNextPrice.setText(item.getNextPrice());
         holder.offerPreviousPrice.setText(item.getPreviousPrice());
         holder.rating.setRating(Float.parseFloat(item.getRating()));
+        holder.seenTxt.setText(item.getSeen());
+        holder.storeTxt.setText(item.getShop_name());
         Log.e("images", FontManager.IMAGE_URL + item.getOfferImage());
         holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.get().load(FontManager.IMAGE_URL + item.getOfferImage()).into(holder.offerImage, new Callback() {
+        Picasso.with(context).load(FontManager.IMAGE_URL + item.getOfferImage()).into(holder.offerImage, new Callback() {
             @Override
             public void onSuccess() {
                 holder.progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 holder.progressBar.setVisibility(View.GONE);
             }
         });
@@ -109,6 +118,6 @@ public class OfferAdapterDisplay extends RecyclerView.Adapter<OfferAdapterDispla
 
     @Override
     public int getItemCount() {
-        return offerList.size();
+        return Math.min(offerList.size(), 10);
     }
 }

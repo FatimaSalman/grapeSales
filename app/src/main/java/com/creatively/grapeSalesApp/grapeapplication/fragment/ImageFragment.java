@@ -1,8 +1,10 @@
 package com.creatively.grapeSalesApp.grapeapplication.fragment;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ import com.creatively.grapeSalesApp.grapeapplication.manager.FontManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import java.util.Objects;
 
 
 /**
@@ -65,6 +69,7 @@ public class ImageFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,7 +79,7 @@ public class ImageFragment extends Fragment {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true).cacheOnDisk(true).build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                getActivity()).defaultDisplayImageOptions(defaultOptions).build();
+                Objects.requireNonNull(getActivity())).defaultDisplayImageOptions(defaultOptions).build();
 
         ImageLoader.getInstance().init(config);
 

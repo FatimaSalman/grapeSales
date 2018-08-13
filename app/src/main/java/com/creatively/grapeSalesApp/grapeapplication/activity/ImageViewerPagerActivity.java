@@ -1,6 +1,8 @@
 package com.creatively.grapeSalesApp.grapeapplication.activity;
 
 import android.content.res.Configuration;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import com.creatively.grapeSalesApp.grapeapplication.adapter.ImagesPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ImageViewerPagerActivity extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class ImageViewerPagerActivity extends AppCompatActivity {
     int currentPos;
     int selected;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +40,7 @@ public class ImageViewerPagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image_viewer_pager);
 
         images = getIntent().getStringArrayListExtra("IMAGES");
-        selected = getIntent().getExtras().getInt("SELECTED");
+        selected = Objects.requireNonNull(getIntent().getExtras()).getInt("SELECTED");
         mPager = findViewById(R.id.pager);
         ipa = new ImagesPagerAdapter(getSupportFragmentManager(), images);
         mPager.setAdapter(ipa);

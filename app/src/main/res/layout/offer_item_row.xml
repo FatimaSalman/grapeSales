@@ -85,12 +85,86 @@
                 android:textColor="@color/colorGrayDark"
                 android:textSize="9.2sp" />
 
+            <RelativeLayout
+                android:id="@+id/storeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addressTxt"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:gravity="center"
+                    android:text="@string/exhibtion_"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="9.2sp" />
+
+                <TextView
+                    android:id="@+id/storeTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/txt"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/offer_bio"
+                    android:textColor="@color/colorGrayDark"
+                    android:textSize="9.2sp"
+                    tools:ignore="RelativeOverlap" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/seenLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/storeLayout"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/txt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:gravity="center"
+                    android:text="@string/seen_no_"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="9.2sp" />
+
+                <TextView
+                    android:id="@+id/seenTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/txt1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/offer_bio"
+                    android:textColor="@color/colorGrayDark"
+                    android:textSize="9.2sp"
+                    tools:ignore="RelativeOverlap" />
+            </RelativeLayout>
+
             <RatingBar
                 android:id="@+id/rating"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/addressTxt"
+                android:layout_below="@+id/seenLayout"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"

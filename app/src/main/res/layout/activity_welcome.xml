@@ -112,8 +112,26 @@
         <FrameLayout
             android:id="@+id/fragmentReplace"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/skipLayout"
             android:layout_below="@+id/tabLayout" />
 
+        <RelativeLayout
+            android:id="@+id/skipLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:background="?android:selectableItemBackground"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/droid_kufi_bold"
+                android:text="@string/skip_register"
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -33,7 +33,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
     private OnItemClickListener listener;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView offerQuanityTxt, addressTxt, shopNameTxt;
+        TextView offerQuanityTxt, addressTxt, shopNameTxt,seenTxt;
         ProgressBar progressBar;
         RoundedImageView shopImage;
         ImageView ic_remove, ic_edit;
@@ -49,6 +49,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
             shopImage = view.findViewById(R.id.shopImage);
             rating = view.findViewById(R.id.rating);
             ic_remove = view.findViewById(R.id.ic_remove);
+            seenTxt = view.findViewById(R.id.seenTxt);
             ic_edit = view.findViewById(R.id.ic_edit);
             layout = view.findViewById(R.id.layout);
         }
@@ -76,10 +77,11 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
         final Shop item = shopList.get(position);
         holder.shopNameTxt.setText(item.getName());
         holder.addressTxt.setText(item.getAddress());
+        holder.seenTxt.setText(item.getSeen());
         holder.offerQuanityTxt.setText(item.getOfferCount());
         holder.rating.setRating(Float.parseFloat(item.getRating()));
         holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.get().load(FontManager.IMAGE_URL + item.getShopImage())
+        Picasso.with(context).load(FontManager.IMAGE_URL + item.getShopImage())
                 .into(holder.shopImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -87,7 +89,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
                     }
 
                     @Override
-                    public void onError(Exception e) {
+                    public void onError() {
                         holder.progressBar.setVisibility(View.GONE);
                     }
                 });

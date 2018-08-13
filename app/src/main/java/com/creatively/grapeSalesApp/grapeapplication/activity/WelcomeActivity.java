@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private RelativeLayout loginLayout, registerLayout;
     private TextView registerTxt, loginTxt;
     private String type, offer_id, shop_id, user_id;
+    private RelativeLayout skipLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +37,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         type = getIntent().getStringExtra("type");
-
+        Log.e("type", type);
+        if (TextUtils.equals(type, "0")) {
+            skipLayout.setVisibility(View.GONE);
+        } else {
+            skipLayout.setVisibility(View.VISIBLE);
+        }
         offer_id = getIntent().getStringExtra("offer_id");
         shop_id = getIntent().getStringExtra("shop_id");
         user_id = getIntent().getStringExtra("user_id");
@@ -46,11 +54,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         RelativeLayout backLayout = findViewById(R.id.backLayout);
         backLayout.setOnClickListener(this);
         loginLayout = findViewById(R.id.loginLayout);
+        skipLayout = findViewById(R.id.skipLayout);
         registerTxt = findViewById(R.id.registerTxt);
         loginTxt = findViewById(R.id.loginTxt);
         registerLayout = findViewById(R.id.registerLayout);
         loginLayout.setOnClickListener(this);
         registerLayout.setOnClickListener(this);
+        skipLayout.setOnClickListener(this);
         showOtherFragment();
     }
 
@@ -65,6 +75,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             loginTxt.setTypeface(FontManager.getTypefaceTextInputRegular(this));
             registerTxt.setTypeface(FontManager.getTypefaceTextInputBold(this));
             registerLayout.setBackground(getResources().getDrawable(R.drawable.bg_item_tab));
+            Log.e("type", type);
             replaceFragment(new RegisterFragment(), type, offer_id, user_id, shop_id);
         } else if (id == R.id.loginLayout) {
             registerLayout.setBackground(null);
@@ -72,6 +83,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             loginTxt.setTypeface(FontManager.getTypefaceTextInputBold(this));
             loginLayout.setBackground(getResources().getDrawable(R.drawable.bg_item_tab));
             replaceFragment(new LoginFragment(), type, offer_id, user_id, shop_id);
+        } else if (id == R.id.skipLayout) {
+            Intent intent = new Intent(this, MainUserActivity.class);
+            intent.putExtra("type", "1");
+            startActivity(intent);
         }
     }
 
@@ -99,5 +114,18 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 //        Log.e("shop_id",shop_id);
 //        Log.e("user_id",user_id);
         replaceFragment(new LoginFragment(), type, offer_id, user_id, shop_id);
+    }
+
+    public void onBackPressed() {
+        int fragments = getSupportFragmentManager().getBackStackEntryCount();
+        if (fragments == 1) {
+            finish();
+        } else {
+            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
     }
 }

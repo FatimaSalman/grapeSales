@@ -1,7 +1,8 @@
 package com.creatively.grapeSalesApp.grapeapplication.model;
 
 public class User {
-    private String id, full_name, phone, password, token, type, is_active, fcm_token;
+    private String id, full_name, phone, password, token, type, is_active, fcm_token, invite_code,
+            point_no;
 
     public User() {
     }
@@ -11,6 +12,22 @@ public class User {
         this.full_name = full_name;
         this.phone = phone;
         this.password = password;
+    }
+
+    public String getInvite_code() {
+        return invite_code;
+    }
+
+    public void setInvite_code(String invite_code) {
+        this.invite_code = invite_code;
+    }
+
+    public String getPoint_no() {
+        return point_no;
+    }
+
+    public void setPoint_no(String point_no) {
+        this.point_no = point_no;
     }
 
     public String getFcm_token() {

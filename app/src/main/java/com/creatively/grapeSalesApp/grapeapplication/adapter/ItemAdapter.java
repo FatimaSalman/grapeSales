@@ -23,7 +23,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     private List<MenuItem> itemList;
     private Context context;
-    public int selectPosition = 0;
+    public int selectPosition = 1;
     private OnItemClickListener listener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

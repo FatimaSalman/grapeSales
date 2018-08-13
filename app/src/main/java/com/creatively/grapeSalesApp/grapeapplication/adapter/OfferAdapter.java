@@ -39,7 +39,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         RoundedImageView offerImage;
         RatingBar rating;
         Button deleteOffer;
-        RelativeLayout layout;
+        RelativeLayout layout,seenLayout,storeLayout;
 
         MyViewHolder(View view) {
             super(view);
@@ -53,6 +53,10 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
             offerImage = view.findViewById(R.id.offerImage);
             deleteOffer = view.findViewById(R.id.deleteOffer);
             layout = view.findViewById(R.id.layout);
+            seenLayout = view.findViewById(R.id.seenLayout);
+            seenLayout.setVisibility(View.GONE);
+            storeLayout = view.findViewById(R.id.storeLayout);
+            storeLayout.setVisibility(View.GONE);
         }
     }
 
@@ -82,14 +86,14 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
         holder.rating.setRating(Float.parseFloat(item.getRating()));
         Log.e("images", FontManager.IMAGE_URL + item.getOfferImage());
         holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.get().load(FontManager.IMAGE_URL + item.getOfferImage()).into(holder.offerImage, new Callback() {
+        Picasso.with(context).load(FontManager.IMAGE_URL + item.getOfferImage()).into(holder.offerImage, new Callback() {
             @Override
             public void onSuccess() {
                 holder.progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 holder.progressBar.setVisibility(View.GONE);
             }
         });

@@ -31,7 +31,9 @@ import java.util.concurrent.Executors;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class ConnectionManager implements ConnectionManagerInterface {
@@ -66,9 +68,9 @@ public class ConnectionManager implements ConnectionManagerInterface {
                                             .addFormDataPart("fcm_token", user.getFcm_token());
                                     RequestBody requestBody = formBody.build();
                                     final OkHttpClient client = new OkHttpClient();
-                                    okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
+                                    Request request = new Request.Builder().url(FontManager.URL
                                             + "login").post(requestBody).build();
-                                    final okhttp3.Response response;
+                                    final Response response;
                                     try {
                                         response = client.newCall(request).execute();
                                         String response_data = response.body().string();
@@ -76,57 +78,50 @@ public class ConnectionManager implements ConnectionManagerInterface {
                                         if (response_data != null) {
                                             try {
                                                 final JSONObject jsonObject = new JSONObject(response_data);
-                                                if (jsonObject != null) {
-                                                    if (callback != null) {
-                                                        handler.post(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                try {
-                                                                    if (jsonObject.has("error")) {
-                                                                        String error = jsonObject.getString("error");
-                                                                        callback.onError(error);
-                                                                    } else if (jsonObject.has("success")) {
-                                                                        String success = jsonObject.getString("success");
-                                                                        JSONObject successJson = new JSONObject(success);
-                                                                        User user = new User();
-                                                                        user.setToken(successJson.getString("token"));
-                                                                        user.setType(successJson.getString("type"));
-                                                                        user.setId(successJson.getString("id"));
-                                                                        user.setIs_active(successJson.getString("is_active"));
-                                                                        callback.onLoginDone(user);
-                                                                    }
-                                                                } catch (JSONException e) {
-                                                                    e.printStackTrace();
-                                                                    handler.post(new Runnable() {
-                                                                        @Override
-                                                                        public void run() {
-                                                                            callback.onError(mContext.getString(R.string.no_internet_connection));
-                                                                        }
-                                                                    });
+                                                if (callback != null) {
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            try {
+                                                                if (jsonObject.has("error")) {
+                                                                    String error = jsonObject.getString("error");
+                                                                    callback.onError(mContext.getString(R.string.username_password_wrong));
+                                                                } else if (jsonObject.has("success")) {
+                                                                    String success = jsonObject.getString("success");
+                                                                    JSONObject successJson = new JSONObject(success);
+                                                                    User user = new User();
+                                                                    user.setToken(successJson.getString("token"));
+                                                                    user.setType(successJson.getString("type"));
+                                                                    user.setId(successJson.getString("id"));
+                                                                    user.setIs_active(successJson.getString("is_active"));
+                                                                    callback.onLoginDone(user);
                                                                 }
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                                handler.post(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        callback.onError(mContext.getString(R.string.no_internet_connection));
+                                                                    }
+                                                                });
                                                             }
-                                                        });
-                                                    } else {
-                                                        handler.post(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                callback.onError(mContext.getString(R.string.no_internet_connection));
-                                                            }
-                                                        });
-                                                    }
-
+                                                        }
+                                                    });
                                                 } else {
                                                     handler.post(new Runnable() {
                                                         @Override
                                                         public void run() {
+                                                            assert callback != null;
                                                             callback.onError(mContext.getString(R.string.no_internet_connection));
                                                         }
                                                     });
                                                 }
+
                                             } catch (Exception e) {
                                                 handler.post(new Runnable() {
                                                     @Override
                                                     public void run() {
+                                                        assert callback != null;
                                                         callback.onError(mContext.getString(R.string.no_internet_connection));
                                                     }
                                                 });
@@ -168,7 +163,7 @@ public class ConnectionManager implements ConnectionManagerInterface {
     }
 
     @Override
-    public void register(final User user, final RegisterCallback callback) {
+    public void register(final User user, final String code, final RegisterCallback callback) {
         InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
             @Override
             public void onInternetAvailable(boolean isAvailable) {
@@ -182,7 +177,8 @@ public class ConnectionManager implements ConnectionManagerInterface {
                                     .addFormDataPart("phone", user.getPhone())
                                     .addFormDataPart("type", user.getType())
                                     .addFormDataPart("fcm_token", user.getFcm_token())
-                                    .addFormDataPart("is_active", "0");
+                                    .addFormDataPart("is_active", "0")
+                                    .addFormDataPart("code", code);
                             RequestBody requestBody = formBody.build();
                             final OkHttpClient client = new OkHttpClient();
                             okhttp3.Request request = new okhttp3.Request.Builder().url(FontManager.URL
@@ -201,7 +197,21 @@ public class ConnectionManager implements ConnectionManagerInterface {
                                                 public void run() {
                                                     try {
                                                         String error = jsonObject.getString("error");
-                                                        callback.onError(error);
+                                                        JSONObject errorJson = new JSONObject(error);
+                                                        if (errorJson.has("full_name")) {
+                                                            String full_name = errorJson.getString("full_name");
+                                                            JSONArray fullName = new JSONArray(full_name);
+                                                            String message = fullName.get(0).toString();
+                                                            callback.onError(mContext.getString(R.string.user_name_aleady_found));
+                                                        } else if (errorJson.has("phone")) {
+                                                            String full_name = errorJson.getString("phone");
+                                                            JSONArray fullName = new JSONArray(full_name);
+                                                            String message = fullName.get(0).toString();
+                                                            callback.onError(mContext.getString(R.string.mobile_is_already_found));
+                                                        } else if (errorJson.has("code")) {
+                                                            String code = errorJson.getString("code");
+                                                            callback.onError(code);
+                                                        }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
                                                         handler.post(new Runnable() {
@@ -306,6 +316,8 @@ public class ConnectionManager implements ConnectionManagerInterface {
                                                     user.setType(infoJson.getString("type"));
                                                     user.setPhone(infoJson.getString("phone"));
                                                     user.setIs_active(infoJson.getString("is_active"));
+                                                    user.setInvite_code(infoJson.getString("invite_code"));
+                                                    user.setPoint_no(infoJson.getString("point_no"));
                                                     callback.onUserRegisterDone(user);
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
@@ -810,6 +822,7 @@ public class ConnectionManager implements ConnectionManagerInterface {
 
     @Override
     public void addOffer(final Offer offer, final InstallCallback callback) {
+        Log.e("date", offer.getStart_date() + "  //  " + offer.getEnd_date());
         InternetConnectionUtils.isInternetAvailable(mContext.getApplicationContext(), new InternetAvailableCallback() {
             @Override
             public void onInternetAvailable(boolean isAvailable) {
@@ -822,7 +835,9 @@ public class ConnectionManager implements ConnectionManagerInterface {
                                     .addFormDataPart("offer_bio", offer.getOfferBio())
                                     .addFormDataPart("befor_discount", offer.getPreviousPrice())
                                     .addFormDataPart("after_discount", offer.getNextPrice())
-                                    .addFormDataPart("shop_id", offer.getShop_id());
+                                    .addFormDataPart("shop_id", offer.getShop_id())
+                                    .addFormDataPart("start_offer", offer.getStart_date())
+                                    .addFormDataPart("end_offer", offer.getEnd_date());
 //                                    .addFormDataPart("offer_image", offer.getImageFile().getName(),
 //                                            RequestBody.create(MediaType.parse("image/jpeg"), offer.getImageFile()));
                             for (Images images : offer.getImagesList()) {
@@ -1019,13 +1034,16 @@ public class ConnectionManager implements ConnectionManagerInterface {
                                                     String befor_discount = successJson.getString("befor_discount");
                                                     String after_discount = successJson.getString("after_discount");
                                                     String offer_image = successJson.getString("offer_image");
+                                                    String start_date = successJson.getString("start_offer");
+                                                    String end_date = successJson.getString("end_offer");
                                                     String shop_id = successJson.getString("shop_id");
                                                     String shop = successJson.getString("shop");
                                                     JSONObject shopObject = new JSONObject(shop);
                                                     String user_id = shopObject.getString("user_id");
                                                     Offer offer1 = new Offer(id, offer_name,
                                                             offer_bio, befor_discount, user_id,
-                                                            after_discount, offer_image, shop_id);
+                                                            after_discount, offer_image, shop_id,
+                                                            start_date, end_date, "");
                                                     callback.onOfferDone(offer1);
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
@@ -1089,6 +1107,8 @@ public class ConnectionManager implements ConnectionManagerInterface {
                             MultipartBody.Builder formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                                     .addFormDataPart("offer_name", offer.getOfferTitle())
                                     .addFormDataPart("offer_bio", offer.getOfferBio())
+                                    .addFormDataPart("start_offer", offer.getStart_date())
+                                    .addFormDataPart("end_offer", offer.getEnd_date())
                                     .addFormDataPart("befor_discount", offer.getPreviousPrice())
                                     .addFormDataPart("after_discount", offer.getNextPrice());
 

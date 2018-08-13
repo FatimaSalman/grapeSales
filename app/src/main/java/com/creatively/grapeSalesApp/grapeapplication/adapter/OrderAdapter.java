@@ -2,11 +2,9 @@ package com.creatively.grapeSalesApp.grapeapplication.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import com.creatively.grapeSalesApp.grapeapplication.R;
 import com.creatively.grapeSalesApp.grapeapplication.callback.OnItemClickListener;
 import com.creatively.grapeSalesApp.grapeapplication.manager.FontManager;
-import com.creatively.grapeSalesApp.grapeapplication.model.Offer;
 import com.creatively.grapeSalesApp.grapeapplication.model.Order;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.squareup.picasso.Callback;
@@ -83,14 +80,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             holder.statusTxt.setText("اكتمال الطلب");
         }
         holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.get().load(FontManager.IMAGE_URL + item.getImage()).into(holder.offerImage, new Callback() {
+        Picasso.with(context).load(FontManager.IMAGE_URL + item.getImage()).into(holder.offerImage, new Callback() {
             @Override
             public void onSuccess() {
                 holder.progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 holder.progressBar.setVisibility(View.GONE);
             }
         });

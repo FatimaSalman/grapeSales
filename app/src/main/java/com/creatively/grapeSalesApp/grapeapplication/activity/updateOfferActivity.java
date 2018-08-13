@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.creatively.grapeSalesApp.grapeapplication.R;
 import com.creatively.grapeSalesApp.grapeapplication.adapter.ImageAdapter;
@@ -29,6 +31,7 @@ import com.creatively.grapeSalesApp.grapeapplication.callback.OnItemClickListene
 import com.creatively.grapeSalesApp.grapeapplication.callback.RegisterCallback;
 import com.creatively.grapeSalesApp.grapeapplication.manager.AppErrorsManager;
 import com.creatively.grapeSalesApp.grapeapplication.manager.ConnectionManager;
+import com.creatively.grapeSalesApp.grapeapplication.manager.DatePickerFragment;
 import com.creatively.grapeSalesApp.grapeapplication.manager.FilePath;
 import com.creatively.grapeSalesApp.grapeapplication.manager.FontManager;
 import com.creatively.grapeSalesApp.grapeapplication.model.Images;
@@ -58,6 +61,7 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
     private List<Images> imageList = new ArrayList<>();
     private ImageAdapter imageAdapter;
     private ImageView addImage;
+    private TextView startEditText, endEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,10 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
         registerBtn.setText(getString(R.string.update));
         registerBtn.setOnClickListener(this);
 
+        startEditText = findViewById(R.id.startEditText);
+        startEditText.setOnClickListener(this);
+        endEditText = findViewById(R.id.endEditText);
+        endEditText.setOnClickListener(this);
         offerNameEditText = findViewById(R.id.offerNameEditText);
         addImage = findViewById(R.id.addImage);
         previousPriceEditText = findViewById(R.id.previousPriceEditText);
@@ -117,6 +125,20 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
             updateOffer();
         } else if (id == R.id.addImage) {
             openGalleryFile();
+        } else if (id == R.id.startEditText) {
+            DialogFragment newFragment = new DatePickerFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("first", "start");
+            newFragment.setArguments(bundle);
+            assert getFragmentManager() != null;
+            newFragment.show(getSupportFragmentManager(), "Date Picker");
+        } else if (id == R.id.endEditText) {
+            DialogFragment newFragment = new DatePickerFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("first", "end");
+            newFragment.setArguments(bundle);
+            assert getFragmentManager() != null;
+            newFragment.show(getSupportFragmentManager(), "Date Picker");
         }
     }
 
@@ -126,6 +148,8 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
         String before_price = previousPriceEditText.getText().toString().trim();
         String after_price = nextPriceEditText.getText().toString().trim();
         String offer_bio = bioEditText.getText().toString().trim();
+        String start_date = startEditText.getText().toString().trim();
+        String end_date = endEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(offer_name)) {
             offerNameEditText.setError(getString(R.string.required_field));
@@ -139,6 +163,12 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
         } else if (TextUtils.isEmpty(offer_bio)) {
             bioEditText.setError(getString(R.string.required_field));
             bioEditText.requestFocus();
+        } else if (TextUtils.isEmpty(start_date)) {
+            startEditText.setError(getString(R.string.required_field));
+            startEditText.requestFocus();
+        } else if (TextUtils.isEmpty(end_date)) {
+            endEditText.setError(getString(R.string.required_field));
+            endEditText.requestFocus();
         } else {
             progressDialog.show();
             Offer offer = new Offer();
@@ -149,10 +179,12 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
             offer.setImagesList(imageList);
             offer.setImageFile(fileSchema);
             offer.setId(offer_id);
+            offer.setStart_date(start_date);
+            offer.setEnd_date(end_date);
             connectionManager.updateOffer(offer, new InstallCallback() {
                 @Override
                 public void onStatusDone(String result) {
-                   progressDialog.dismiss();
+                    progressDialog.dismiss();
                     AppErrorsManager.showSuccessDialog(updateOfferActivity.this, result, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -165,7 +197,7 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void onError(String error) {
-                   progressDialog.dismiss();
+                    progressDialog.dismiss();
                     AppErrorsManager.showErrorDialog(updateOfferActivity.this, error);
                 }
             });
@@ -225,6 +257,10 @@ public class updateOfferActivity extends AppCompatActivity implements View.OnCli
                 previousPriceEditText.setText(offer1.getPreviousPrice());
                 nextPriceEditText.setText(offer1.getNextPrice());
                 bioEditText.setText(offer1.getOfferBio());
+                if (!TextUtils.equals(offer1.getStart_date(), "null"))
+                    startEditText.setText(offer1.getStart_date());
+                if (!TextUtils.equals(offer1.getEnd_date(), "null"))
+                    endEditText.setText(offer1.getEnd_date());
                 try {
                     JSONArray jsonArray = new JSONArray(offer1.getOfferImage());
                     for (int i = 0; i < jsonArray.length(); i++) {

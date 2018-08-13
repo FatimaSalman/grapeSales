@@ -98,7 +98,7 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
             mobileTxt.setText(shop.getShop_phone());
             progressBar.setVisibility(View.VISIBLE);
             ratingStart.setRating(Float.parseFloat(shop.getRating()));
-            Picasso.get().load(FontManager.IMAGE_URL + shop.getShopImage())
+            Picasso.with(this).load(FontManager.IMAGE_URL + shop.getShopImage())
                     .into(shopImage, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -106,7 +106,7 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
                         }
 
                         @Override
-                        public void onError(Exception e) {
+                        public void onError() {
                             progressBar.setVisibility(View.GONE);
                         }
                     });
@@ -328,7 +328,7 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
                     shopAddressTxt.setText(shop_address);
                     mobileTxt.setText(shop_phone);
                     progressBar.setVisibility(View.VISIBLE);
-                    Picasso.get().load(FontManager.IMAGE_URL + image_url)
+                    Picasso.with(ShopDetailsUserActivity.this).load(FontManager.IMAGE_URL + image_url)
                             .into(shopImage, new Callback() {
                                 @Override
                                 public void onSuccess() {
@@ -336,7 +336,7 @@ public class ShopDetailsUserActivity extends AppCompatActivity implements View.O
                                 }
 
                                 @Override
-                                public void onError(Exception e) {
+                                public void onError() {
                                     progressBar.setVisibility(View.GONE);
                                 }
                             });

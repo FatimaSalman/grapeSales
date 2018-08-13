@@ -63,10 +63,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         connectionManager = new ConnectionManager(this);
         init();
         if (!AppPreferences.getString(this, "token").equals("0")) {
-            if (getIntent().getStringExtra("is_active") != null) {
+            if (AppPreferences.getString(this, "type").equals("1")) {
+                Intent intent = new Intent(this, MainUserActivity.class);
+                startActivity(intent);
+                finish();
+            } else if (getIntent().getStringExtra("is_active") != null) {
                 if (getIntent().getStringExtra("is_active").equals("active"))
                     getUserDetails();
             } else getUserDetails();
+        }
+
+        if (AppPreferences.getString(this, "type").equals("1")) {
+            Intent intent = new Intent(this, MainUserActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        String more = getIntent().getStringExtra("more");
+        if (TextUtils.equals(more, "more")) {
+            itemAdapter.selectPosition = 0;
+            replaceFragment(new CategoriesFragment());
         }
     }
 
@@ -87,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchLayout.setOnClickListener(this);
         RelativeLayout menuLayout = findViewById(R.id.menuLayout);
         menuLayout.setOnClickListener(this);
-        replaceFragment(new CategoriesFragment());
+        replaceFragment(new OffersFragment());
         RecyclerView recyclerView = navigationView.findViewById(R.id.nav_drawer_recycler_view);
         itemAdapter = new ItemAdapter(this, menuItemList, new OnItemClickListener() {
             @Override
@@ -95,8 +110,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 itemAdapter.selectPosition = position;
                 itemAdapter.notifyDataSetChanged();
                 if (TextUtils.equals(menuItemList.get(position).getId(), "0")) {
-                    replaceFragment(new CategoriesFragment());
-                    toggleSlidingMenu();
+                    if (!AppPreferences.getString(MainActivity.this, "token").equals("0")) {
+                        replaceFragment(new CategoriesFragment());
+                        toggleSlidingMenu();
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, SelectTypeActivity.class);
+                        startActivity(intent);
+                    }
                 } else if (TextUtils.equals(menuItemList.get(position).getId(), "1")) {
                     replaceFragment(new OffersFragment());
                     toggleSlidingMenu();
@@ -107,8 +127,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 } else if (AppPreferences.getString(MainActivity.this, "token").equals("0")) {
                     if (TextUtils.equals(menuItemList.get(position).getId(), "3")) {
-                        replaceFragment(new WelcomeFragment());
-                        toggleSlidingMenu();
+                        Intent intent = new Intent(MainActivity.this, SelectTypeActivity.class);
+                        startActivity(intent);
+//                        replaceFragment(new WelcomeFragment());
+//                        toggleSlidingMenu();
                     }
                 } else {
                     if (TextUtils.equals(menuItemList.get(position).getId(), "4")) {
@@ -117,10 +139,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
                 if (TextUtils.equals(menuItemList.get(position).getId(), "5")) {
+                    if (AppPreferences.getString(MainActivity.this, "token").equals("0")) {
+                        Intent intent = new Intent(MainActivity.this, SelectTypeActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, PointActivity.class);
+                        startActivity(intent);
+                    }
+                }
+                if (TextUtils.equals(menuItemList.get(position).getId(), "6")) {
                     replaceFragment(new ContactUsFragment());
                     toggleSlidingMenu();
                 }
-                if (TextUtils.equals(menuItemList.get(position).getId(), "6")) {
+                if (TextUtils.equals(menuItemList.get(position).getId(), "7")) {
                     AppPreferences.clearAll(MainActivity.this);
                     Intent intent = new Intent(MainActivity.this, SelectTypeActivity.class);
                     startActivity(intent);
@@ -169,10 +200,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             menuItem = new MenuItem("4", "الملف الشخصي");
             menuItemList.add(menuItem);
         }
-        menuItem = new MenuItem("5", "اتصل بنا");
+        menuItem = new MenuItem("5", "جمع نقاط");
+        menuItemList.add(menuItem);
+        menuItem = new MenuItem("6", "اتصل بنا");
         menuItemList.add(menuItem);
         if (!AppPreferences.getString(this, "token").equals("0")) {
-            menuItem = new MenuItem("6", "تسجيل الخروج");
+            menuItem = new MenuItem("7", "تسجيل الخروج");
             menuItemList.add(menuItem);
         }
 
@@ -186,13 +219,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.commit();
     }
 
-//    @Override
-////    public void onBackPressed() {
-//////        moveTaskToBack(true);
-//////        android.os.Process.killProcess(android.os.Process.myPid());
-//////        System.exit(1);
-////    }
-
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(navigationView)) {
@@ -202,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (fragments == 1) {
                 finish();
             } else {
-                if (getFragmentManager().getBackStackEntryCount() > 1) {
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
                     getFragmentManager().popBackStack();
                 } else {
                     super.onBackPressed();
@@ -231,4 +257,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
+
 }

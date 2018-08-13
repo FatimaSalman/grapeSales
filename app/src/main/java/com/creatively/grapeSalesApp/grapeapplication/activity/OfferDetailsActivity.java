@@ -164,6 +164,8 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.backLayout || id == R.id.backBtn) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             finish();
         } else if (id == R.id.orderBtn) {
             if (AppPreferences.getString(this, "token").equals("0")) {
@@ -182,8 +184,8 @@ public class OfferDetailsActivity extends AppCompatActivity implements View.OnCl
             }
         } else if (id == R.id.starLayout) {
             openDialogRating();
-        }else if (id == R.id.morelayout) {
-            Intent intent= new Intent(OfferDetailsActivity.this, ShopDetailsUserActivity.class);
+        } else if (id == R.id.morelayout) {
+            Intent intent = new Intent(OfferDetailsActivity.this, ShopDetailsUserActivity.class);
             intent.putExtra("shop_id", shop_id);
             startActivity(intent);
         }

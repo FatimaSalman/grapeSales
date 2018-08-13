@@ -21,8 +21,8 @@ android {
         applicationId "com.creatively.grapeSalesApp.grapeapplication"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.2"
+        versionCode 5
+        versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -41,7 +41,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.google.okhttp:okhttp:20120626'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.android.support:multidex:1.0.3'

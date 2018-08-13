@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.creatively.grapeSalesApp.grapeapplication.callback.InstallCallback;
 import com.creatively.grapeSalesApp.grapeapplication.callback.OnItemClickListener;
 import com.creatively.grapeSalesApp.grapeapplication.manager.AppErrorsManager;
 import com.creatively.grapeSalesApp.grapeapplication.manager.ConnectionManager;
+import com.creatively.grapeSalesApp.grapeapplication.manager.DatePickerFragment;
 import com.creatively.grapeSalesApp.grapeapplication.manager.FilePath;
 import com.creatively.grapeSalesApp.grapeapplication.model.Images;
 import com.creatively.grapeSalesApp.grapeapplication.model.Offer;
@@ -35,6 +37,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,11 +46,7 @@ import java.util.Locale;
 
 public class AddOfferActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //شعار لعرض خاص لمنطقة محددة للمسختدم
-    //تحديد منطقة المستخدم عند الدخول لتطبيق
-    //البحث المخصص
-
-//    private CircularImageView shopImage;
+    //    private CircularImageView shopImage;
     private ImageView ic_camera;
     private ConnectionManager connectionManager;
     private static final int GALLERY_REQUEST_CODE_SCHEMA = 50;
@@ -57,6 +56,7 @@ public class AddOfferActivity extends AppCompatActivity implements View.OnClickL
     private EditText offerNameEditText, previousPriceEditText, nextPriceEditText, bioEditText;
     private List<Images> imageList = new ArrayList<>();
     private ImageAdapter imageAdapter;
+    private TextView startEditText, endEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +84,10 @@ public class AddOfferActivity extends AppCompatActivity implements View.OnClickL
         previousPriceEditText = findViewById(R.id.previousPriceEditText);
         nextPriceEditText = findViewById(R.id.nextPriceEditText);
         bioEditText = findViewById(R.id.bioEditText);
+        startEditText = findViewById(R.id.startEditText);
+        startEditText.setOnClickListener(this);
+        endEditText = findViewById(R.id.endEditText);
+        endEditText.setOnClickListener(this);
         ic_camera = findViewById(R.id.ic_camera);
 //        shopImage = findViewById(R.id.shopImage);
 //        shopImage.setOnClickListener(this);
@@ -110,13 +114,25 @@ public class AddOfferActivity extends AppCompatActivity implements View.OnClickL
             finish();
         } else if (id == R.id.registerBtn) {
             addOffer();
-        }
-//        else if (id == R.id.shopImage) {
+        } else if (id == R.id.addImage) {
+            openGalleryFile1();
+        } else if (id == R.id.startEditText) {
+            DialogFragment newFragment = new DatePickerFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("first", "start");
+            newFragment.setArguments(bundle);
+            assert getFragmentManager() != null;
+            newFragment.show(getSupportFragmentManager(), "Date Picker");
+        } else if (id == R.id.endEditText) {
+            DialogFragment newFragment = new DatePickerFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("first", "end");
+            newFragment.setArguments(bundle);
+            assert getFragmentManager() != null;
+            newFragment.show(getSupportFragmentManager(), "Date Picker");
+        }//        else if (id == R.id.shopImage) {
 //            openGalleryFile();
 //        }
-        else if (id == R.id.addImage) {
-            openGalleryFile1();
-        }
     }
 
     public void addOffer() {
@@ -125,6 +141,8 @@ public class AddOfferActivity extends AppCompatActivity implements View.OnClickL
         String before_price = previousPriceEditText.getText().toString().trim();
         String after_price = nextPriceEditText.getText().toString().trim();
         String offer_bio = bioEditText.getText().toString().trim();
+        String start_date = startEditText.getText().toString().trim();
+        String end_date = endEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(offer_name)) {
             offerNameEditText.setError(getString(R.string.required_field));
@@ -138,7 +156,13 @@ public class AddOfferActivity extends AppCompatActivity implements View.OnClickL
         } else if (TextUtils.isEmpty(offer_bio)) {
             bioEditText.setError(getString(R.string.required_field));
             bioEditText.requestFocus();
-        }else if (imageList.size() == 0) {
+        } else if (TextUtils.isEmpty(start_date)) {
+            startEditText.setError(getString(R.string.required_field));
+            startEditText.requestFocus();
+        } else if (TextUtils.isEmpty(end_date)) {
+            endEditText.setError(getString(R.string.required_field));
+            endEditText.requestFocus();
+        } else if (imageList.size() == 0) {
             AppErrorsManager.showErrorDialog(this, getString(R.string.you_should_least_1_images));
         } else if (imageList.size() > 3) {
             AppErrorsManager.showErrorDialog(this, getString(R.string.you_should_least_3_images));
@@ -155,10 +179,13 @@ public class AddOfferActivity extends AppCompatActivity implements View.OnClickL
             offer.setShop_id(shop_id);
             offer.setImagesList(imageList);
             offer.setImageFile(fileSchema);
+            offer.setStart_date(start_date);
+            offer.setEnd_date(end_date);
+            Log.e("date", start_date + "  //  " + end_date);
             connectionManager.addOffer(offer, new InstallCallback() {
                 @Override
                 public void onStatusDone(String result) {
-                   progressDialog.dismiss();
+                    progressDialog.dismiss();
                     AppErrorsManager.showSuccessDialog(AddOfferActivity.this, result, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -171,7 +198,7 @@ public class AddOfferActivity extends AppCompatActivity implements View.OnClickL
 
                 @Override
                 public void onError(String error) {
-                   progressDialog.dismiss();
+                    progressDialog.dismiss();
                     AppErrorsManager.showErrorDialog(AddOfferActivity.this, error);
                 }
             });

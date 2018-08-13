@@ -56,6 +56,11 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
         connectionManager = new ConnectionManager(this);
         getFcmToken();
         init();
+        String more = getIntent().getStringExtra("more");
+        if (TextUtils.equals(more, "more")) {
+            itemAdapter.selectPosition = 0;
+            replaceFragment(new CategoriesUserFragment());
+        }
     }
 
     public void init() {
@@ -65,7 +70,8 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setItemIconTintList(null);
 
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name,
+        ActionBarDrawerToggle mDrawerToggle =
+                new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name,
                 R.string.app_name);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -75,7 +81,7 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
         menuLayout.setOnClickListener(this);
         RelativeLayout searchLayout = findViewById(R.id.searchLayout);
         searchLayout.setOnClickListener(this);
-        replaceFragment(new CategoriesUserFragment());
+        replaceFragment(new OffersFragment());
         RecyclerView recyclerView = navigationView.findViewById(R.id.nav_drawer_recycler_view);
         itemAdapter = new ItemAdapter(this, menuItemList, new OnItemClickListener() {
             @Override
@@ -83,8 +89,13 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
                 itemAdapter.selectPosition = position;
                 itemAdapter.notifyDataSetChanged();
                 if (TextUtils.equals(menuItemList.get(position).getId(), "0")) {
-                    replaceFragment(new CategoriesUserFragment());
-                    toggleSlidingMenu();
+                    if (!AppPreferences.getString(MainUserActivity.this, "token").equals("0")) {
+                        replaceFragment(new CategoriesUserFragment());
+                        toggleSlidingMenu();
+                    } else {
+                        Intent intent = new Intent(MainUserActivity.this, SelectTypeActivity.class);
+                        startActivity(intent);
+                    }
                 } else if (TextUtils.equals(menuItemList.get(position).getId(), "1")) {
                     replaceFragment(new OffersFragment());
                     toggleSlidingMenu();
@@ -105,10 +116,19 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
                 if (TextUtils.equals(menuItemList.get(position).getId(), "5")) {
+                    if (AppPreferences.getString(MainUserActivity.this, "token").equals("0")) {
+                        Intent intent = new Intent(MainUserActivity.this, SelectTypeActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(MainUserActivity.this, PointActivity.class);
+                        startActivity(intent);
+                    }
+                }
+                if (TextUtils.equals(menuItemList.get(position).getId(), "6")) {
                     replaceFragment(new ContactUsFragment());
                     toggleSlidingMenu();
                 }
-                if (TextUtils.equals(menuItemList.get(position).getId(), "6")) {
+                if (TextUtils.equals(menuItemList.get(position).getId(), "7")) {
                     AppPreferences.clearAll(MainUserActivity.this);
                     Intent intent = new Intent(MainUserActivity.this, SelectTypeActivity.class);
                     startActivity(intent);
@@ -157,10 +177,12 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
             menuItem = new MenuItem("4", "الملف الشخصي");
             menuItemList.add(menuItem);
         }
-        menuItem = new MenuItem("5", "اتصل بنا");
+        menuItem = new MenuItem("5", "جمع نقاط");
+        menuItemList.add(menuItem);
+        menuItem = new MenuItem("6", "اتصل بنا");
         menuItemList.add(menuItem);
         if (!AppPreferences.getString(this, "token").equals("0")) {
-            menuItem = new MenuItem("6", "تسجيل الخروج");
+            menuItem = new MenuItem("7", "تسجيل الخروج");
             menuItemList.add(menuItem);
         }
     }
@@ -173,13 +195,6 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
         fragmentTransaction.commit();
     }
 
-//    @Override
-//    public void onBackPressed() {
-////        moveTaskToBack(true);
-////        android.os.Process.killProcess(android.os.Process.myPid());
-////        System.exit(1);
-//    }
-
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(navigationView)) {
@@ -189,7 +204,7 @@ public class MainUserActivity extends AppCompatActivity implements View.OnClickL
             if (fragments == 1) {
                 finish();
             } else {
-                if (getFragmentManager().getBackStackEntryCount() > 1) {
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
                     getFragmentManager().popBackStack();
                 } else {
                     super.onBackPressed();

@@ -62,26 +62,26 @@
             android:layout_height="wrap_content">
 
             <!--<RelativeLayout-->
-                <!--android:id="@+id/imageLayout"-->
-                <!--android:layout_width="102dp"-->
-                <!--android:layout_height="102dp"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="10dp">-->
+            <!--android:id="@+id/imageLayout"-->
+            <!--android:layout_width="102dp"-->
+            <!--android:layout_height="102dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="10dp">-->
 
-                <!--<com.github.siyamed.shapeimageview.CircularImageView-->
-                    <!--android:id="@+id/shopImage"-->
-                    <!--android:layout_width="102dp"-->
-                    <!--android:layout_height="102dp"-->
-                    <!--android:background="@drawable/circle_grape_opacity" />-->
+            <!--<com.github.siyamed.shapeimageview.CircularImageView-->
+            <!--android:id="@+id/shopImage"-->
+            <!--android:layout_width="102dp"-->
+            <!--android:layout_height="102dp"-->
+            <!--android:background="@drawable/circle_grape_opacity" />-->
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/ic_camera"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:contentDescription="@string/app_name"-->
-                    <!--android:src="@drawable/camera" />-->
+            <!--<ImageView-->
+            <!--android:id="@+id/ic_camera"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:contentDescription="@string/app_name"-->
+            <!--android:src="@drawable/camera" />-->
             <!--</RelativeLayout>-->
 
             <RelativeLayout
@@ -156,10 +156,40 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/addImageText"
+                    android:id="@+id/startEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/bioEditText"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_grape_solid_border"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:gravity="center|top"
+                    android:hint="@string/start_offer"
+                    android:padding="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/endEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/startEditText"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_grape_solid_border"
+                    android:fontFamily="@font/droid_kufi_regular"
+                    android:gravity="center|top"
+                    android:hint="@string/end_offer"
+                    android:padding="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/addImageText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/endEditText"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/droid_kufi_regular"
                     android:text="@string/add_image_for_offer"
@@ -185,9 +215,9 @@
                         android:id="@+id/addImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/recycleView"
                         android:layout_marginEnd="5dp"
                         android:layout_marginStart="5dp"
-                        android:layout_below="@+id/recycleView"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/add_image" />
                 </RelativeLayout>

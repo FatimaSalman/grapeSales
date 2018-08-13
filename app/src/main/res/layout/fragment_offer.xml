@@ -1,88 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
     <RelativeLayout
+        android:id="@+id/exhForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_border"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/offerEditText"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/searchBtoon"
+            android:background="@null"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_offer"
+            android:fontFamily="@font/droid_kufi_regular"
+            android:gravity="center_vertical"
+            android:hint="@string/offer_name"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textSize="12sp" />
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="@string/category" />-->
+        <ImageButton
+            android:id="@+id/searchBtoon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/circle_green_border"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_search" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/noTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/exhForm"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/droid_kufi_bold"
+        android:gravity="center"
+        android:text="@string/no_shops"
+        android:textColor="@color/colorWhite"
+        android:textSize="18.3sp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/waitProgress"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/logo_app" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:layout_below="@+id/noTxt"
+        android:layout_marginStart="10dp">
 
         <RelativeLayout
-            android:id="@+id/exhForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_border"
-            android:padding="5dp">
-
-            <EditText
-                android:id="@+id/offerEditText"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/searchBtoon"
-                android:background="@null"
-                android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_offer"
-                android:fontFamily="@font/droid_kufi_regular"
-                android:gravity="center_vertical"
-                android:hint="@string/offer_name"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:textSize="12sp" />
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="@string/category" />-->
-            <ImageButton
-                android:id="@+id/searchBtoon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/circle_green_border"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_search" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/noTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/exhForm"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/droid_kufi_bold"
-            android:gravity="center"
-            android:text="@string/no_shops"
-            android:textColor="@color/colorWhite"
-            android:textSize="18.3sp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/waitProgress"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/logo_app" />
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/noTxt"
-            android:layout_marginStart="10dp">
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="wrap_content" />
 
-    </RelativeLayout>
-
+            <Button
+                android:id="@+id/moreBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recyclerView"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_grape_border"
+                android:fontFamily="@font/droid_kufi_bold"
+                android:text="@string/more_browse"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

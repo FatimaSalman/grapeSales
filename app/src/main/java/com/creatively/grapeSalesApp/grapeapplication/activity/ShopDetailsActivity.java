@@ -103,7 +103,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
         shopAddressTxt.setText(shop.getAddress());
         ratingStart.setRating(Float.parseFloat(shop.getRating()));
         progressBar.setVisibility(View.VISIBLE);
-        Picasso.get().load(FontManager.IMAGE_URL + shop.getShopImage())
+        Picasso.with(this).load(FontManager.IMAGE_URL + shop.getShopImage())
                 .into(shopImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -111,7 +111,7 @@ public class ShopDetailsActivity extends AppCompatActivity implements View.OnCli
                     }
 
                     @Override
-                    public void onError(Exception e) {
+                    public void onError() {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
